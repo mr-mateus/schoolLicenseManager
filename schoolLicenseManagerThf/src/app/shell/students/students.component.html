@@ -1,3 +1,14 @@
-<thf-page-default t-title="Alunos">
-  Olá
+<thf-page-default t-title="Alunos" [t-actions]="actions">
+  <!-- <thf-table
+  t-height="600"
+  t-hide-select-all="true"
+  t-hide-text-overflow
+  t-sort="true"
+  t-striped="true"
+  [t-columns]="columns"
+  [t-items]="students">
+</thf-table> -->
+<app-student-edit>
+
+</app-student-edit>
 </thf-page-default>

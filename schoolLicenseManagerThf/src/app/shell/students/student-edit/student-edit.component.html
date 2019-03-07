@@ -1,0 +1,88 @@
+<form [formGroup]="studentForm">
+  <div class="thf-row">
+    <thf-input class="thf-md-12" formControlName="name" t-clean t-label="Nome">
+    </thf-input>
+  </div>
+  <div class="thf-row">
+    <thf-input class="thf-md-6" formControlName="cpf" t-mask="999.999.999-99" t-clean t-label="CPF">
+    </thf-input>
+    <thf-email class="thf-lg-6" formControlName="email" t-label="Email" t-clean>
+    </thf-email>
+  </div>
+  <div class="thf-row">
+      <!-- [t-disabled]="!studentForm.valid" -->
+    <thf-button class="thf-md-3" t-label="Save"  (t-click)="save()">
+    </thf-button>
+  </div>
+</form>
+<!-- <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName" required>
+  </label>
+
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+  </label>
+
+  <div formGroupName="address">
+    <h3>Address</h3>
+
+    <label>
+      Street:
+      <input type="text" formControlName="street">
+    </label>
+
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label>
+
+    <label>
+      State:
+      <input type="text" formControlName="state">
+    </label>
+
+    <label>
+      Zip Code:
+      <input type="text" formControlName="zip">
+    </label>
+  </div>
+
+  <div formArrayName="aliases">
+    <h3>Aliases</h3> <button (click)="addAlias()">Add Alias</button>
+
+    <div *ngFor="let address of aliases.controls; let i=index">
+      <label>
+        Alias:
+        <input type="text" [formControlName]="i">
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+</form>
+
+<hr>
+
+
+<p>
+  Form Value: {{ profileForm.value | json }}
+</p>
+
+
+<p>
+  Form Status: {{ profileForm.status }}
+</p>
+
+<p>
+  <button (click)="updateProfile()">Update Profile</button>
+</p> -->
+
+
+<!--
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
