@@ -1,6 +1,7 @@
 package br.com.totvs.schoollicensemanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class TeacherController {
 	private TeacherService teacherService;
 
 	@GetMapping(params = { "page", "size" })
-	public PageResponseEntity<Teacher> findAll(@RequestParam("page") String page, @RequestParam("size") String size){
+	public PageResponseEntity<Teacher> findAll(@RequestParam("page") String page, @RequestParam("size") String size) {
 		return new PageResponseEntity<Teacher>(teacherService.findAll(page, size));
 	}
 
@@ -30,9 +31,10 @@ public class TeacherController {
 	public Teacher findById(@PathVariable("id") Long id) {
 		return this.teacherService.findById(id);
 	}
-	
+
 	@GetMapping(params = { "name", "page", "size" })
-	public PageResponseEntity<Teacher> findByNameContaining(@RequestParam("name") String name, @RequestParam("page") String page, @RequestParam("size") String size) {
+	public PageResponseEntity<Teacher> findByNameContaining(@RequestParam("name") String name,
+			@RequestParam("page") String page, @RequestParam("size") String size) {
 		return new PageResponseEntity<Teacher>(this.teacherService.findByNameContaining(name, page, size));
 	}
 
@@ -49,5 +51,10 @@ public class TeacherController {
 	@PutMapping
 	public Teacher update(@RequestBody Teacher teacher) {
 		return this.teacherService.update(teacher);
+	}
+
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable Long id) {
+		this.teacherService.delete(id);
 	}
 }

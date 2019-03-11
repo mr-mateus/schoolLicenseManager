@@ -3,5 +3,5 @@
     [t-actions]="tableActions" [t-items]="teacherPage?.items" [t-loading]="isLoading" [t-show-more-disabled]="!teacherPage || !teacherPage?.hasNext"
     (t-show-more)="findMore()">
   </thf-table>
-  <app-teacher-edit></app-teacher-edit>
+  <app-teacher-edit (teacherCreated)="findTeacherByName($event)"></app-teacher-edit>
 </thf-page-list>

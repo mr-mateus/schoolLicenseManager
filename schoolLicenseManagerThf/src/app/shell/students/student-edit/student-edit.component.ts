@@ -14,8 +14,6 @@ export class StudentEditComponent {
   @ViewChild(StudentFormComponent) public studentFormComponent: StudentFormComponent;
   @Output() public studentCreated = new EventEmitter<Student>();
 
-  public studentTitleForm = '';
-
   public close: ThfModalAction = {
     action: () => {
       this.closeModal();
@@ -42,7 +40,7 @@ export class StudentEditComponent {
     this.studentService.findById(studentId).subscribe(student => {
       this.studentFormComponent.showStudentForEdit(student);
       this.thfModal.open();
-    })
+    });
   }
 
   public closeModal() {

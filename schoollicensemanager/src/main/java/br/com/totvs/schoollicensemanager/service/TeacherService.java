@@ -15,5 +15,7 @@ public interface TeacherService {
 	public Teacher update(Teacher teacher);
 	
 	public Page<Teacher> findByNameContaining(String name, String page, String size);
+	
+	public void delete(Long id);
 
 }

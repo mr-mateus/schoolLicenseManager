@@ -46,4 +46,10 @@ public class TeacherServiceImpl implements TeacherService{
 		return this.teacherPagingRepository.findByNameContainingIgnoreCase(name, pageRequest);
 	}
 
+	@Override
+	public void delete(Long id) {
+		this.teacherRepository.deleteById(id);
+		
+	}
+
 }

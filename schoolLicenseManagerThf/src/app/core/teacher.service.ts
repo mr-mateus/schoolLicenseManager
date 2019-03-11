@@ -18,8 +18,24 @@ export class TeacherService {
     return this.http.get<PageResponseEntity<Teacher>>(`${TEACHER_URI}`, { params: params });
   }
 
+  findById(id: number): Observable<Teacher> {
+    return this.http.get<Teacher>(`${TEACHER_URI}/${id}`);
+  }
+
   findByNameContaining(name: string, page: string, size: string): Observable<PageResponseEntity<Teacher>> {
     const params = new HttpParams().set('name', name).set('page', page).set('size', size);
     return this.http.get<PageResponseEntity<Teacher>>(`${TEACHER_URI}`, { params: params });
+  }
+
+  create(teacher: Teacher): Observable<Teacher> {
+    return this.http.post<Teacher>(`${TEACHER_URI}`, teacher);
+  }
+
+  update(teacher: Teacher): Observable<Teacher> {
+    return this.http.put<Teacher>(`${TEACHER_URI}`, teacher);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${TEACHER_URI}/${id}`);
   }
 }

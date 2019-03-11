@@ -31,12 +31,7 @@ export class StudentFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateProfile() {
-
-  }
-
   showStudentForEdit(student: Student) {
-    console.log(student.enrollment);
 
     this.studentForm.patchValue({
       enrollment: student.enrollment,

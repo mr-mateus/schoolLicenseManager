@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ThfPageAction, ThfTableColumn, ThfTableAction, ThfPageFilter } from '@totvs/thf-ui';
 import { PageResponseEntity } from 'src/app/model/pageResponseEntity';
 import { Teacher } from 'src/app/model/teacher';
 import { TeacherService } from 'src/app/core/teacher.service';
+import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 
 @Component({
   selector: 'app-teachers',
   templateUrl: './teachers.component.html'
 })
 export class TeachersComponent implements OnInit {
-  public readonly pageActions: Array<ThfPageAction> = [
+  @ViewChild(TeacherEditComponent) teacherEditComponent: TeacherEditComponent;
+
+  readonly pageActions: Array<ThfPageAction> = [
     { label: 'Adicionar', action: this.addTeacher }
   ];
 
-  public readonly columns: Array<ThfTableColumn> = [
+  readonly columns: Array<ThfTableColumn> = [
     { property: 'id', label: 'Código' },
     { property: 'name', label: 'Nome' },
     { property: 'cpf', label: 'CPF' },
@@ -21,33 +24,36 @@ export class TeachersComponent implements OnInit {
     { property: 'academicDegree', label: 'Titulação' }
   ];
 
-  public readonly tableActions: Array<ThfTableAction> = [
+  readonly tableActions: Array<ThfTableAction> = [
     {
       label: 'Alterar professor',
       action: this.updateTeacher.bind(this)
     },
     {
-      label: 'Excluir'
+      label: 'Excluir',
+      action: this.deleteTeacher.bind(this)
     }
   ];
 
-  public readonly filterSettings: ThfPageFilter = {
+  readonly filterSettings: ThfPageFilter = {
     action: 'filterTeacherByName',
     ngModel: 'teacherNameFilter',
     placeholder: 'Nome do professor',
 
   };
 
-  public teacherPage: PageResponseEntity<Teacher> = { hasNext: false, items: [] };
-  public teacherNameFilter = '';
+  teacherPage: PageResponseEntity<Teacher> = { hasNext: false, items: [] };
+  teacherNameFilter = '';
 
-  public isLoading = false;
+  isLoading = false;
+
   private page = 0;
   private size = 10;
 
   constructor(private teacherService: TeacherService) {
 
   }
+
   ngOnInit(): void {
     this.findTeachers();
   }
@@ -65,11 +71,9 @@ export class TeachersComponent implements OnInit {
       () => {
         this.isLoading = false;
       });
-  };
+  }
 
-
-
-  public filterTeacherByName(filter = this.teacherNameFilter) {
+  filterTeacherByName(filter = this.teacherNameFilter) {
     this.page = 0;
     this.isLoading = true;
     this.teacherService.findByNameContaining(filter, this.page + '', this.size + '').subscribe(teachers => {
@@ -78,17 +82,36 @@ export class TeachersComponent implements OnInit {
       () => { this.isLoading = false; });
   }
 
+  findTeacherByName(teacher: Teacher): void {
+    this.teacherNameFilter = teacher.name;
+    this.filterTeacherByName(this.teacherNameFilter);
+  }
+
   addTeacher() {
-
+    this.teacherEditComponent.openForInsert();
   }
 
-  updateTeacher() {
-
+  updateTeacher(teacher: Teacher) {
+    this.teacherEditComponent.openForUpdate(teacher.id);
   }
 
-  public findMore(): void {
+  findMore(): void {
     this.page += 1;
     this.findTeachers();
   }
 
+  deleteTeacher(teacher: Teacher) {
+    this.teacherService.delete(teacher.id).subscribe(() => {
+      this.page = 0;
+      this.isLoading = true;
+      this.teacherNameFilter = '';
+      this.filterTeacherByName();
+    }, error => {
+      console.error(error);
+    },
+      () => {
+        this.isLoading = false;
+      }
+    );
+  }
 }
