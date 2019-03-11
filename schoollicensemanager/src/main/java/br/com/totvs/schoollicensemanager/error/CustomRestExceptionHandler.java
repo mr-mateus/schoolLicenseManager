@@ -25,6 +25,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.totvs.schoollicensemanager.exception.PropertyAlreadyExistException;
+
 @ControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -161,8 +163,15 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
         logger.info(ex.getClass().getName());
         logger.error("error", ex);
-        //
-        final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+        final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Algo de errado aconteceu, verifique com seu administrador" , ex.getLocalizedMessage());
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+    
+    @ExceptionHandler({ PropertyAlreadyExistException.class })
+    public ResponseEntity<Object> handlePropertyAlreadyExist(final PropertyAlreadyExistException ex, final WebRequest request){
+    	logger.info(ex.getClass().getName());
+        logger.error("error", ex);
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage() , ex.getLocalizedMessage());
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 }

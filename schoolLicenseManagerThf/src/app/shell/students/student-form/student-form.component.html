@@ -1,0 +1,22 @@
+<form [formGroup]="studentForm">
+  <div class="thf-row">
+    <thf-input class="thf-md-12" formControlName="name" t-clean t-label="Nome" t-required>
+    </thf-input>
+  </div>
+  <div class="thf-row">
+    <thf-input class="thf-md-6" formControlName="cpf" t-mask="999.999.999-99" t-clean t-label="CPF" t-required>
+    </thf-input>
+    <thf-email class="thf-lg-6" formControlName="email" t-label="Email" t-clean t-required>
+    </thf-email>
+  </div>
+  <div class="thf-row">
+    <thf-radio-group
+      class="thf-lg-6"
+      name="studentType"
+      formControlName="studentType"
+      t-label="Tipo"
+      t-required
+      [t-options]="studentTypeOptions">
+    </thf-radio-group>
+  </div>
+</form>

@@ -25,7 +25,7 @@ public class DisciplineController {
 	public List<Discipline> findAll() {
 		return this.disciplineService.findAll();
 	}
-
+	
 	@GetMapping("{id}")
 	public Discipline findById(@PathVariable("id") Long id) {
 		return this.disciplineService.findById(id);

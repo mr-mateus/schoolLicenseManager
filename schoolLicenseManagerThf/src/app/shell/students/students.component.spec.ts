@@ -40,10 +40,10 @@ fdescribe('StudentsComponent', () => {
   });
 
   it('deve chamar o método getStudents', fakeAsync(() => {
-    spyOn(studentService, 'getStudents').and.returnValue(of({}));
+    spyOn(studentService, 'findAll').and.returnValue(of({}));
     component.ngOnInit();
     tick();
-    expect(studentService.getStudents).toHaveBeenCalled();
+    expect(studentService.findAll).toHaveBeenCalled();
 
   }));
 });

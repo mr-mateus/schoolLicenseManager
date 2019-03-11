@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormArray } from '@angular/forms';
+import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
+import { ThfModalAction, ThfModalComponent, ThfPageFilter } from '@totvs/thf-ui';
+import { StudentFormComponent } from '../student-form/student-form.component';
+import { Student } from 'src/app/model/student';
+import { StudentService } from 'src/app/core/student.service';
 
 @Component({
   selector: 'app-student-edit',
@@ -7,50 +10,52 @@ import { Validators, FormBuilder, FormArray } from '@angular/forms';
   styleUrls: ['./student-edit.component.css']
 })
 export class StudentEditComponent {
-  studentForm = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', Validators.required],
-    cpf: ['', Validators.required],
+  @ViewChild(ThfModalComponent) public thfModal: ThfModalComponent;
+  @ViewChild(StudentFormComponent) public studentFormComponent: StudentFormComponent;
+  @Output() public studentCreated = new EventEmitter<Student>();
 
-  });
+  public studentTitleForm = '';
 
-  profileForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: [''],
-    address: this.fb.group({
-      street: [''],
-      city: [''],
-      state: [''],
-      zip: ['']
-    }),
-    aliases: this.fb.array([
-      this.fb.control('')
-    ])
-  });
+  public close: ThfModalAction = {
+    action: () => {
+      this.closeModal();
+    },
+    label: 'Cancelar',
+    danger: true
+  };
 
-  get aliases() {
-    return this.profileForm.get('aliases') as FormArray;
+  public confirm: ThfModalAction = {
+    action: () => {
+      this.processStudent();
+    },
+    label: 'Salvar'
+  };
+
+  constructor(private studentService: StudentService) {
   }
 
-  constructor(private fb: FormBuilder) { }
+  public openForInsert(): void {
+    this.thfModal.open();
+  }
 
+  public openForUpdate(studentId: string): void {
+    this.studentService.findById(studentId).subscribe(student => {
+      this.studentFormComponent.showStudentForEdit(student);
+      this.thfModal.open();
+    })
+  }
 
-  updateProfile() {
-    this.profileForm.patchValue({
-      firstName: 'Nancy',
-      address: {
-        street: '123 Drew Street'
-      }
+  public closeModal() {
+    this.thfModal.close();
+    this.studentFormComponent.studentForm.reset();
+  }
+
+  public processStudent() {
+    this.studentFormComponent.save().subscribe(student => {
+      this.closeModal();
+      this.studentCreated.emit(student);
+
     });
-  }
-
-  addAlias() {
-    this.aliases.push(this.fb.control(''));
-  }
-
-  save() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.studentForm.value);
   }
 }
 

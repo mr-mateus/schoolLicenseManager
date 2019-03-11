@@ -27,7 +27,7 @@ describe('StudentService', () => {
 
   it('deve chamar o serviço httpClient passando a url correta', async () => {
     spyOn(http, 'get').and.returnValue(of({}));
-    studentService.getStudents();
+    studentService.findAll();
     expect(http.get).toHaveBeenCalledWith(`${environment.apiUri}${STUDENTS_URI}`);
 
   });

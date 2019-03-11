@@ -1,5 +1,6 @@
 package br.com.totvs.schoollicensemanager.model;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,9 +13,11 @@ public class Person {
 	
 	@Email
 	@NotBlank
+	@Column(unique=true)
 	private String email;
 	
 	@NotBlank
+	@Column(unique=true)
 	private String cpf;
 
 	public String getName() {

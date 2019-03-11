@@ -2,7 +2,7 @@ import { Person } from './Person';
 
 export interface Student extends Person {
 
-  enrollment?: String;
+  enrollment?: string;
   studentType: StudentType;
 }
 

@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentsRoutingModule } from './students-routing.module';
 import { StudentsComponent } from './students.component';
+import { StudentFormComponent } from './student-form/student-form.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { StudentsComponent } from './students.component';
   ],
   declarations: [
     StudentsComponent,
-    StudentEditComponent
+    StudentEditComponent,
+    StudentFormComponent
   ],
   providers: []
 })
