@@ -50,7 +50,7 @@ export class TeacherFormComponent implements OnInit {
       name: teacher.name,
       cpf: teacher.cpf,
       email: teacher.email,
-      academicDegree  : this.transformEnumToAcademicDegreeRadioOption(teacher.academicDegree)
+      academicDegree: this.transformEnumToAcademicDegreeRadioOption(teacher.academicDegree)
     });
   }
 

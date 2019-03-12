@@ -41,3 +41,42 @@ insert into teacher(name, email, cpf, academic_degree ) values
 ('Giulia', 'giulia@teste.com', '012345678917', 0),
 ('Henrique', 'henrique@teste.com', '012345678918', 2),
 ('Heloisa', 'heloisa@teste.com', '012345678919', 2);
+
+insert into discipline(description, initials, workload) values 
+('Matematica Basica', 'Mat', 50),
+('Calculo I', 'Calc I', 50),
+('Calculo II', 'Calc II', 40),
+('Algebra linear', 'Alg', 30),
+('Empreendendorismo', 'Empre', 60),
+('Fisica I', 'Fisi I', 50),
+('Fisica II', 'Fisi II', 50),
+('Fisica III', 'Fisi II', 50),
+('Quimica I', 'Qui I', 50),
+('Quimica II', 'Qui II', 50),
+('Quimica III', 'Qui II', 50),
+('Geometria Analitica', 'Geo Al', 30),
+('Probabilidade e Estatistica', 'Prob Estatis', 30),
+('Estrutura de Materiais', 'Estrut Mat', 20),
+('Tecnologias de Construções', 'Tec Constru', 20),
+('Programação I', 'Prog I', 20),
+('Programação II', 'Prog II', 20);
+
+insert into school_class(description, year, period, vacancies) values 
+('Engenharia Quimica', 2019, 5, 20),
+('Engenharia Elétrica', 2019, 5, 20),
+('Engenharia Mecanica', 2019, 5, 20),
+('Engenharia da Produção', 2019, 5, 20),
+('Engenharia Civil', 2019, 5, 20),
+('Engenharia da Computação', 2019, 5, 20),
+('Engenharia de Software', 2019, 5, 20),
+('Ciências da computação ', 2019, 5, 20),
+('Letras', 2019, 5, 15),
+('História', 2019, 5, 15),
+('Filosofia', 2019, 4, 7),
+('Geografia', 2019, 5, 15),
+('Matemática', 2019, 5, 15),
+('Física', 2019, 4, 10),
+('Biologia', 2019, 4, 10),
+('Medicina', 2019, 6, 15),
+('Biomedicina', 2019, 4, 20),
+('Veterinária', 2019, 6, 30);

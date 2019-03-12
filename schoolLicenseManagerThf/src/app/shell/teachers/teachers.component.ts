@@ -16,6 +16,12 @@ export class TeachersComponent implements OnInit {
     { label: 'Adicionar', action: this.addTeacher }
   ];
 
+  readonly filterSettings: ThfPageFilter = {
+    action: 'filterTeacherByName',
+    ngModel: 'teacherNameFilter',
+    placeholder: 'Nome do professor',
+  };
+
   readonly columns: Array<ThfTableColumn> = [
     { property: 'id', label: 'Código' },
     { property: 'name', label: 'Nome' },
@@ -35,13 +41,6 @@ export class TeachersComponent implements OnInit {
     }
   ];
 
-  readonly filterSettings: ThfPageFilter = {
-    action: 'filterTeacherByName',
-    ngModel: 'teacherNameFilter',
-    placeholder: 'Nome do professor',
-
-  };
-
   teacherPage: PageResponseEntity<Teacher> = { hasNext: false, items: [] };
   teacherNameFilter = '';
 
@@ -60,7 +59,7 @@ export class TeachersComponent implements OnInit {
 
   findTeachers(): void {
     this.isLoading = true;
-    this.teacherService.findAll(this.page + '', this.size + '').subscribe(teachers => {
+    this.teacherService.findAllPaging(this.page + '', this.size + '').subscribe(teachers => {
       this.teacherPage.hasNext = teachers.hasNext;
       if (this.teacherPage.items.length > 0) {
         this.teacherPage.items = this.teacherPage.items.concat(teachers.items);

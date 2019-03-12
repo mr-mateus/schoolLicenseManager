@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import br.com.totvs.schoollicensemanager.model.Discipline;
 
 @Repository
-public interface DisciplineRepository extends JpaRepository<Discipline, Long>{
+public interface DisciplineRepository extends JpaRepository<Discipline, Long> {
 
+	
 }

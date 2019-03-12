@@ -23,7 +23,7 @@ public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
-
+	
 	@GetMapping(params = { "page", "size" })
 	public PageResponseEntity<Student> findAll(@RequestParam("page") String page, @RequestParam("size") String size) {
 		return new PageResponseEntity<Student>(studentService.findAll(page.toString(), size.toString()));
@@ -53,4 +53,5 @@ public class StudentController {
 	public void delete(@PathVariable("id") Long enrollment) {
 		this.studentService.delete(enrollment);
 	}
+	
 }

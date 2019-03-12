@@ -1,0 +1,15 @@
+SELECT *
+FROM teacher
+where id not in (
+select teacher_id from discipline where teacher_id not is null
+)
+
+SELECT *
+FROM teacher
+where not exists (
+select 1 from discipline where teacher_id not is null and discipline.teacher_id = teacher.id
+)
+
+INNER JOIN discipline ON teacher.id != discipline.teacher_id;
+
+select * from discipline;

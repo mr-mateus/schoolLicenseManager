@@ -13,9 +13,13 @@ export class TeacherService {
 
   constructor(private http: HttpClient) { }
 
-  findAll(page: string, size: string): Observable<PageResponseEntity<Teacher>> {
+  findAllPaging(page: string, size: string): Observable<PageResponseEntity<Teacher>> {
     const params = new HttpParams().set('page', page).set('size', size);
     return this.http.get<PageResponseEntity<Teacher>>(`${TEACHER_URI}`, { params: params });
+  }
+
+  findAll(): Observable<Array<Teacher>> {
+    return this.http.get<Array<Teacher>>(`${TEACHER_URI}`);
   }
 
   findById(id: number): Observable<Teacher> {

@@ -18,12 +18,16 @@ public class SchoolClass {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@NotBlank
 	private String description;
+
 	@NotNull
 	private Integer year;
+
 	@NotNull
 	private Integer period;
+
 	@NotNull
 	private Integer vacancies;
 

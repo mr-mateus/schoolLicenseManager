@@ -1,5 +1,7 @@
 package br.com.totvs.schoollicensemanager.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,11 @@ public class TeacherController {
 
 	@Autowired
 	private TeacherService teacherService;
+	
+	@GetMapping()
+	public List<Teacher> findAll() {
+		return teacherService.findAll();
+	}
 
 	@GetMapping(params = { "page", "size" })
 	public PageResponseEntity<Teacher> findAll(@RequestParam("page") String page, @RequestParam("size") String size) {
@@ -42,11 +49,6 @@ public class TeacherController {
 	public Teacher create(@RequestBody Teacher teacher) {
 		return this.teacherService.create(teacher);
 	}
-
-//	@PostMapping("/id}/teachers/{teacherId}")
-//	public Teacher addTeacher(@PathVariable("id") Long id, @PathVariable("teacherId") Long teacherId) throws Exception {
-//		return this.teacherService.addTeacher(id, teacherId);
-//	}
 
 	@PutMapping
 	public Teacher update(@RequestBody Teacher teacher) {

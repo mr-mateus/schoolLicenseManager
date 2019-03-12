@@ -18,8 +18,7 @@ export class StudentEditComponent {
     action: () => {
       this.closeModal();
     },
-    label: 'Cancelar',
-    danger: true
+    label: 'Cancelar'
   };
 
   public confirm: ThfModalAction = {

@@ -1,0 +1,4 @@
+<thf-page-list t-title="Turmas"  [t-actions]="pageActions" [t-filter]="filterSettings">
+  <app-school-class-table [schoolClasses]="schoolClassPage?.items" [hasNext]="schoolClassPage.hasNext"
+  (findMoreEvent)="findMore()"></app-school-class-table>
+</thf-page-list>
