@@ -1,0 +1,18 @@
+<thf-modal t-title="Alunos" [t-primary-action]="confirmStudentModal" [t-secondary-action]="cancelStudentModal">
+    <thf-list-view *ngIf="studentPage && studentPage.items && studentPage.items.length > 0" (t-show-more)="loadMoreStudents()"
+      [t-show-more-disabled]="!studentPage || !studentPage?.hasNext" t-height="300" t-hide-select-all t-property-title="name"
+      t-select [t-items]="studentPage?.items">
+      <ng-template t-list-view-content-template let-item>
+        <div class="thf-row">
+          <thf-info class="thf-lg-4" t-label="Matrícula" [t-value]="item.enrollment"></thf-info>
+
+          <thf-info class="thf-lg-4" t-label="Nome" [t-value]="item.email"></thf-info>
+
+          <thf-info class="thf-lg-4" t-label="Nome" [t-value]="item.cpf"></thf-info>
+
+          <thf-tag class="thf-lg-4" t-value="{{item.studentType}}">
+          </thf-tag>
+        </div>
+      </ng-template>
+    </thf-list-view>
+  </thf-modal>

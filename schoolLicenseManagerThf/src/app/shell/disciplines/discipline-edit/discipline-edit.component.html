@@ -1,3 +1,17 @@
 <thf-modal title="Disciplina" [t-primary-action]="confirm" [t-secondary-action]="close">
-  <app-discipline-form></app-discipline-form>
+  <form [formGroup]="disciplineForm">
+    <div class="thf-row">
+      <thf-input class="thf-md-12" formControlName="description" t-clean t-label="Descrição" t-required>
+      </thf-input>
+    </div>
+    <div class="thf-row">
+      <thf-input class="thf-md-3" formControlName="initials" t-clean t-label="Sigla" t-required>
+      </thf-input>
+      <thf-number class="thf-lg-3" formControlName="workload" t-label="Carga horária" t-clean t-required>
+      </thf-number>
+      <thf-select class="thf-md-6" formControlName="teacher" t-placeholder="Escolha um professor" name="combo" t-label="Professor"
+        [t-options]="teacherOptions">
+      </thf-select>
+    </div>
+  </form>
 </thf-modal>

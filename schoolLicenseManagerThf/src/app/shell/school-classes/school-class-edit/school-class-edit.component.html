@@ -1,3 +1,45 @@
-<p>
-  school-class-edit works!
-</p>
+<thf-page-edit t-title="Turma">
+  <div class="thf-md-12">
+
+
+  </div>
+
+  <div class="thf-md-12">
+    <thf-divider t-label="Informações da turma">
+    </thf-divider>
+    <form [formGroup]="schoolClassForm">
+      <thf-input class="thf-md-12" formControlName="description" t-clean t-label="Descrição" t-required>
+      </thf-input>
+      <thf-number class="thf-md-2" formControlName="year" t-clean t-label="Ano Letivo" t-required>
+      </thf-number>
+      <thf-number class="thf-md-2" formControlName="period" t-clean t-label="Período Letivo" t-required>
+      </thf-number>
+      <thf-number class="thf-md-2" formControlName="vacancies" t-clean t-label="Vagas" t-required>
+      </thf-number>
+    </form>
+  </div>
+  <div class="thf-md-12">
+    <thf-divider t-label="Disciplinas da turma">
+    </thf-divider>
+    <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Disciplina" (t-click)="openToAddDiscipline()"></thf-button>
+    <thf-button class="btn-page-actions" t-type="default" t-label="Criar nova Disciplina" (t-click)="openToAddStudent()"></thf-button>
+    <div class="disciplines">
+      {{schoolClassForm.controls['disciplines'].value | json}}
+
+      <thf-disclaimer-group [t-disclaimers]="[{ value: 'disclaimer' }]"></thf-disclaimer-group>
+    </div>
+  </div>
+  <div class="thf-row">
+    <div class="thf-md-12">
+      <thf-divider t-label="Alunos da turma">
+      </thf-divider>
+      <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Aluno"  (t-click)="openToAddStudent()"></thf-button>
+      <thf-button class="btn-page-actions" t-type="default" t-label="Criar novo Aluno"></thf-button>
+      <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
+        [t-actions]="tableActions" [t-items]="schoolClassForm.controls['students'].value">
+      </thf-table>
+    </div>
+  </div>
+</thf-page-edit>
+<app-student-not-in-school-class (studentsSelected)="addStudentsSelected($event)"></app-student-not-in-school-class>
+<app-discipline-not-in-school-class (disciplinesSelected)="addDisciplinesSelected($event)"></app-discipline-not-in-school-class>

@@ -63,20 +63,20 @@ insert into discipline(description, initials, workload) values
 
 insert into school_class(description, year, period, vacancies) values 
 ('Engenharia Quimica', 2019, 5, 20),
-('Engenharia Elétrica', 2019, 5, 20),
+('Engenharia Eletrica', 2019, 5, 20),
 ('Engenharia Mecanica', 2019, 5, 20),
-('Engenharia da Produção', 2019, 5, 20),
+('Engenharia da Producao', 2019, 5, 20),
 ('Engenharia Civil', 2019, 5, 20),
-('Engenharia da Computação', 2019, 5, 20),
+('Engenharia da Computacao', 2019, 5, 20),
 ('Engenharia de Software', 2019, 5, 20),
-('Ciências da computação ', 2019, 5, 20),
+('Ciencias da computacao ', 2019, 5, 20),
 ('Letras', 2019, 5, 15),
-('História', 2019, 5, 15),
+('Historia', 2019, 5, 15),
 ('Filosofia', 2019, 4, 7),
 ('Geografia', 2019, 5, 15),
-('Matemática', 2019, 5, 15),
+('Matematica', 2019, 5, 15),
 ('Física', 2019, 4, 10),
 ('Biologia', 2019, 4, 10),
 ('Medicina', 2019, 6, 15),
 ('Biomedicina', 2019, 4, 20),
-('Veterinária', 2019, 6, 30);
+('Veterinaria', 2019, 6, 30);

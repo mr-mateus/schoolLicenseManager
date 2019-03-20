@@ -1,0 +1,6 @@
+<thf-page-list t-title="Turmas" [t-actions]="pageActions" [t-filter]="filterSettings">
+  <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
+    [t-actions]="tableActions" [t-items]="schoolClassPage.items" [t-loading]="isLoading" [t-show-more-disabled]="!schoolClassPage || !schoolClassPage?.hasNext"
+    (t-show-more)="findMore()">
+  </thf-table>
+</thf-page-list>

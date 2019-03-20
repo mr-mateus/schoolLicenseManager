@@ -1,23 +1,17 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { StudentsComponent } from './students/students.component';
 import { StudentEditComponent } from './student-edit/student-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { StudentsRoutingModule } from './students-routing.module';
-import { StudentsComponent } from './students.component';
-import { StudentFormComponent } from './student-form/student-form.component';
-
 
 @NgModule({
+  declarations: [StudentsComponent, StudentEditComponent],
   imports: [
     SharedModule,
-    ReactiveFormsModule,
-    StudentsRoutingModule
+    StudentsRoutingModule,
+    ReactiveFormsModule
   ],
-  declarations: [
-    StudentsComponent,
-    StudentEditComponent,
-    StudentFormComponent
-  ],
-  providers: []
+  exports: [StudentEditComponent]
 })
 export class StudentsModule { }

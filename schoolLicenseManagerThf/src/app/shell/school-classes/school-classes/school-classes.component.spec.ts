@@ -7,7 +7,7 @@ import { SetUpTestBed } from 'src/test.common.spec';
 import { SchoolClassesComponent } from './school-classes.component';
 
 
-fdescribe('SchoolClassesComponent', () => {
+describe('SchoolClassesComponent', () => {
   let component: SchoolClassesComponent;
   let fixture: ComponentFixture<SchoolClassesComponent>;
   const moduleDef: TestModuleMetadata = {

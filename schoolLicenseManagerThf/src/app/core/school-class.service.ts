@@ -17,7 +17,7 @@ export class SchoolClassService {
     return this.http.get<PageResponseEntity<SchoolClass>>(`${SCHOOL_CLASS_URI}`, { params: params });
   }
 
-  findById(id: string): Observable<SchoolClass> {
+  findById(id: number): Observable<SchoolClass> {
     return this.http.get<SchoolClass>(`${SCHOOL_CLASS_URI}/${id}`);
   }
 
@@ -34,7 +34,19 @@ export class SchoolClassService {
     return this.http.put<SchoolClass>(`${SCHOOL_CLASS_URI}`, schoolClass);
   }
 
-  delete(id: string): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.http.delete<void>(`${SCHOOL_CLASS_URI}/${id}`);
   }
+
+  getEmptySchoolClass() {
+    const schoolClass: SchoolClass = {
+      description: null,
+      period: null,
+      vacancies: null,
+      year: null
+    }
+    return schoolClass;
+
+  }
+
 }

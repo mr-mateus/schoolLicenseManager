@@ -1,7 +1,7 @@
 <thf-page-list t-title="Professores" [t-actions]="pageActions" [t-filter]="filterSettings">
-  <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="columns"
+  <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tablecolumns"
     [t-actions]="tableActions" [t-items]="teacherPage?.items" [t-loading]="isLoading" [t-show-more-disabled]="!teacherPage || !teacherPage?.hasNext"
     (t-show-more)="findMore()">
   </thf-table>
-  <app-teacher-edit (teacherCreated)="findTeacherByName($event)"></app-teacher-edit>
+  <app-teacher-edit (teacherCreated)="findTeacherByName($event.name)"></app-teacher-edit>
 </thf-page-list>

@@ -1,0 +1,6 @@
+<thf-page-list t-title="Disciplinas" [t-actions]="pageActions" [t-filter]="filterSettings">
+    <thf-table  t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="columns"
+    [t-actions]="tableActions" [t-items]="disciplinePage?.items" [t-loading]="isLoading" [t-show-more-disabled]="!disciplinePage || !disciplinePage?.hasNext" (t-show-more)="loadMore()">
+    </thf-table>
+    <app-discipline-edit (disciplineCreated)="findDisciplineByInitials($event.initials)"></app-discipline-edit>
+</thf-page-list>

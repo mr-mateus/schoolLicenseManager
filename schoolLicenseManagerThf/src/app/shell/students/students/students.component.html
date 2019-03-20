@@ -1,0 +1,7 @@
+<thf-page-list t-title="Alunos" [t-actions]="pageActions" [t-filter]="filterSettings">
+  <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
+    [t-actions]="tableActions" [t-items]="studentPage?.items" [t-loading]="isLoading" [t-show-more-disabled]="!studentPage || !studentPage?.hasNext"
+    (t-show-more)="loadMore()">
+  </thf-table>
+  <app-student-edit (studentCreated)="findStudentByName($event.name)"></app-student-edit>
+</thf-page-list>

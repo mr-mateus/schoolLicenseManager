@@ -12,8 +12,8 @@ export const STUDENTS_URI = `${environment.apiUri}/api/students`;
 export class StudentService {
   constructor(private http: HttpClient) { }
 
-  findAll(page: string, size: string): Observable<PageResponseEntity<Student>> {
-    const params = new HttpParams().set('page', page).set('size', size);
+  findAll(page: number, size: number): Observable<PageResponseEntity<Student>> {
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
     return this.http.get<PageResponseEntity<Student>>(`${STUDENTS_URI}`, { params: params });
   }
 
@@ -21,8 +21,8 @@ export class StudentService {
     return this.http.get<Student>(`${environment.apiUri}${STUDENTS_URI}/${id}`);
   }
 
-  findByNameContaining(name: string, page: string, size: string): Observable<PageResponseEntity<Student>> {
-    const params = new HttpParams().set('name', name).set('page', page).set('size', size);
+  findByNameContaining(name: string, page: number, size: number): Observable<PageResponseEntity<Student>> {
+    const params = new HttpParams().set('name', name).set('page', page.toString()).set('size', size.toString());
     return this.http.get<PageResponseEntity<Student>>(`${STUDENTS_URI}`, { params: params });
   }
 

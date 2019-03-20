@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SchoolClassesComponent } from './school-classes.component';
-import { SchoolClassListComponent } from './school-class-list/school-class-list.component';
+import { RouterModule, Routes } from '@angular/router';
+import { SchoolClassEditComponent } from './school-class-edit/school-class-edit.component';
+import { SchoolClassesComponent } from './school-classes/school-classes.component';
 
 export const schoolClassesRoutes: Routes = [
-  {
-    path: '', component: SchoolClassesComponent,
-    children: [
-      { path: '', component: SchoolClassListComponent }
-    ]
-  }
+  { path: '', component: SchoolClassesComponent },
+  { path: 'schoolClass', redirectTo: 'schoolClass/' },
+  { path: 'schoolClass/:id', component: SchoolClassEditComponent }
 ];
 
 @NgModule({
