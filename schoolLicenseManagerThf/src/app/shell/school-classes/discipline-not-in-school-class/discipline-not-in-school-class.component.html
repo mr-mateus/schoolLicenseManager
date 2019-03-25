@@ -1,4 +1,4 @@
-<thf-modal t-title="Alunos" [t-primary-action]="confirmDisciplineModal" [t-secondary-action]="cancelDisciplineModal">
+<thf-modal t-title="Disciplinas" [t-primary-action]="confirmDisciplineModal" [t-secondary-action]="cancelDisciplineModal">
   <thf-list-view *ngIf="disciplinePage && disciplinePage.items && disciplinePage.items.length > 0" (t-show-more)="loadMoreDisciplines()"
     [t-show-more-disabled]="!disciplinePage || !disciplinePage?.hasNext" t-height="300" t-hide-select-all t-property-title="name"
     t-select [t-items]="disciplinePage?.items">

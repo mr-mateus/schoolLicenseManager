@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +31,8 @@ public class SchoolClass {
 
 	@NotNull
 	private Integer vacancies;
+	
+	private Integer remainingVacancies;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Discipline> disciplines = new ArrayList<>();
@@ -92,5 +95,18 @@ public class SchoolClass {
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}
+
+	public Integer getRemainingVacancies() {
+		return remainingVacancies;
+	}
+
+	public void setRemainingVacancies(Integer remainingVacancies) {
+		this.remainingVacancies = remainingVacancies;
+	}
+	
+	@PrePersist
+    public void prePersist() {
+		remainingVacancies = vacancies;
+    }	
 
 }

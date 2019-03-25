@@ -11,6 +11,7 @@ import { DisciplinesComponent } from './disciplines/disciplines.component';
   imports: [
     SharedModule,
     DisciplinesRoutingModule
-  ]
+  ],
+  exports: [DisciplineEditComponent]
 })
 export class DisciplinesModule { }

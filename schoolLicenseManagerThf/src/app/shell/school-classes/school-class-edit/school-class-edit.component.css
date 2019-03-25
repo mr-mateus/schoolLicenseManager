@@ -7,7 +7,7 @@
 }
 
 .disciplines {
-  margin-bottom: 8px;
+  margin-top: 8px;
 }
 
 .disciplines thf-button{
@@ -16,4 +16,8 @@
 
 .btn-page-actions{
   margin-right: 8px;
+}
+
+.students-table{
+  margin-top: 8px;
 }

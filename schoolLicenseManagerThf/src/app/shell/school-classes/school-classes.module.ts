@@ -6,6 +6,7 @@ import { SchoolClassesComponent } from './school-classes/school-classes.componen
 import { SchoolClassEditComponent } from './school-class-edit/school-class-edit.component';
 import { StudentNotInSchoolClassComponent } from './student-not-in-school-class/student-not-in-school-class.component';
 import { DisciplineNotInSchoolClassComponent } from './discipline-not-in-school-class/discipline-not-in-school-class.component';
+import { DisciplinesModule } from '../disciplines/disciplines.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DisciplineNotInSchoolClassComponent } from './discipline-not-in-school-
   imports: [
     SchoolClassesRoutingModule,
     SharedModule,
-    StudentsModule
+    StudentsModule,
+    DisciplinesModule
   ]
 })
 export class SchoolClassesModule { }

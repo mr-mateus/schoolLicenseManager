@@ -3,6 +3,7 @@ package br.com.totvs.schoollicensemanager.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.totvs.schoollicensemanager.model.Discipline;
+import br.com.totvs.schoollicensemanager.dto.SchoolClassCreateDTO;
 import br.com.totvs.schoollicensemanager.model.PageResponseEntity;
 import br.com.totvs.schoollicensemanager.model.SchoolClass;
 import br.com.totvs.schoollicensemanager.service.SchoolClassService;
@@ -45,13 +46,18 @@ public class SchoolClassController {
 	}
 
 	@PostMapping
-	public SchoolClass create(@RequestBody SchoolClass schoolClass) {
-		return this.schoolClassService.create(schoolClass);
+	public SchoolClass create(@RequestBody SchoolClassCreateDTO schoolClassCreateDTO) {
+		return this.schoolClassService.create(schoolClassCreateDTO.convertToEntity());
 	}
 
 	@PutMapping
 	public SchoolClass update(@RequestBody SchoolClass schoolClass) {
 		return this.schoolClassService.update(schoolClass);
+	}
+	
+	@DeleteMapping("{id}")
+	public void deleteById(@PathVariable("id") Long id) {
+		this.schoolClassService.deleteById(id);
 	}
 	
 	

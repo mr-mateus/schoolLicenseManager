@@ -4,37 +4,17 @@ import { environment } from 'src/environments/environment';
 import { Student } from '../model/student';
 import { Observable } from 'rxjs';
 import { PageResponseEntity } from '../model/pageResponseEntity';
+import { CrudService } from './crud.service';
 
-export const STUDENTS_URI = `${environment.apiUri}/api/students`;
-@Injectable({
-  providedIn: 'root'
-})
-export class StudentService {
-  constructor(private http: HttpClient) { }
+export const STUDENTS_URI = `students`;
 
-  findAll(page: number, size: number): Observable<PageResponseEntity<Student>> {
-    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PageResponseEntity<Student>>(`${STUDENTS_URI}`, { params: params });
+export class StudentService extends CrudService<Student> {
+  initializeEndpoint(): void {
+    this.endpoint = STUDENTS_URI;
   }
-
-  findById(id: string): Observable<Student> {
-    return this.http.get<Student>(`${environment.apiUri}${STUDENTS_URI}/${id}`);
-  }
-
   findByNameContaining(name: string, page: number, size: number): Observable<PageResponseEntity<Student>> {
+    console.log(page);
     const params = new HttpParams().set('name', name).set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PageResponseEntity<Student>>(`${STUDENTS_URI}`, { params: params });
-  }
-
-  create(student: Student): Observable<Student> {
-    return this.http.post<Student>(`${STUDENTS_URI}`, student);
-  }
-
-  update(student: Student): Observable<Student> {
-    return this.http.put<Student>(`${STUDENTS_URI}`, student);
-  }
-
-  delete(enrollment: string): Observable<void> {
-    return this.http.delete<void>(`${STUDENTS_URI}/${enrollment}`);
+    return this.http.get<PageResponseEntity<Student>>(`${this.getUri()}`, { params: params });
   }
 }

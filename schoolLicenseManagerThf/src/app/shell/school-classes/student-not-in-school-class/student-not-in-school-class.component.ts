@@ -41,7 +41,7 @@ export class StudentNotInSchoolClassComponent implements OnInit {
   openToAddStudent(schoolClassStudents?: Array<Student>): void {
     this.studentsAlreadySelected = schoolClassStudents;
     if (!this.studentPage.items || this.studentPage.items.length === 0) {
-      this.studentService.findAll(this.page, this.size).subscribe(students => {
+      this.studentService.findAllPaging(this.page + '', this.size + '').subscribe(students => {
         this.studentPage = students;
         if (schoolClassStudents && schoolClassStudents.length > 0) {
           this.studentPage.items.forEach(student => {
@@ -56,29 +56,33 @@ export class StudentNotInSchoolClassComponent implements OnInit {
         this.thfModal.open();
       });
     } else {
-      this.studentsAlreadySelected.forEach(student => {
-        this.studentPage.items.forEach(schoolClassStudent => {
-          if (schoolClassStudent.enrollment === student.enrollment) {
-            schoolClassStudent['$selected'] = true;
-          }
+      if (this.studentsAlreadySelected && this.studentsAlreadySelected.length > 0) {
+        this.studentsAlreadySelected.forEach(student => {
+          this.studentPage.items.forEach(schoolClassStudent => {
+            if (schoolClassStudent.enrollment === student.enrollment) {
+              schoolClassStudent['$selected'] = true;
+            }
+          });
         });
-      });
+      }
       this.thfModal.open();
     }
   }
 
   loadMoreStudents(): void {
     this.page += 1;
-    this.studentService.findAll(this.page, this.size).subscribe(students => {
+    this.studentService.findAllPaging(this.page + '', this.size + '').subscribe(students => {
       this.studentPage.hasNext = students.hasNext;
       this.studentPage.items = this.studentPage.items.concat(students.items);
-      this.studentsAlreadySelected.forEach(student => {
-        this.studentPage.items.forEach(schoolClassStudent => {
-          if (schoolClassStudent.enrollment === student.enrollment) {
-            schoolClassStudent['$selected'] = true;
-          }
+      if (this.studentsAlreadySelected && this.studentsAlreadySelected.length > 0) {
+        this.studentsAlreadySelected.forEach(student => {
+          this.studentPage.items.forEach(schoolClassStudent => {
+            if (schoolClassStudent.enrollment === student.enrollment) {
+              schoolClassStudent['$selected'] = true;
+            }
+          });
         });
-      });
+      }
     });
   }
 
@@ -90,9 +94,11 @@ export class StudentNotInSchoolClassComponent implements OnInit {
       return student['$selected'] === true;
     }));
 
-    students = students.concat(this.studentsAlreadySelected.filter(studentAlreadySelected => {
-      return !studentPageIndexed[studentAlreadySelected.enrollment];
-    }));
+    if(this.studentsAlreadySelected && this.studentsAlreadySelected.length > 0) {
+      students = students.concat(this.studentsAlreadySelected.filter(studentAlreadySelected => {
+        return !studentPageIndexed[studentAlreadySelected.enrollment];
+      }));
+    }
 
     students.forEach(student => {
       delete student['$selected'];
@@ -107,6 +113,13 @@ export class StudentNotInSchoolClassComponent implements OnInit {
 
   close(): void {
     this.thfModal.close();
+  }
+
+  resetComponent(): void {
+    this.page = 0;
+    this.size = 10;
+    this.studentsAlreadySelected = new Array<Student>();
+    this.studentPage = { hasNext: false, items: [] };
   }
 
 }

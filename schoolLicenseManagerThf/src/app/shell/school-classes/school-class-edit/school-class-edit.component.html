@@ -16,30 +16,34 @@
       </thf-number>
       <thf-number class="thf-md-2" formControlName="vacancies" t-clean t-label="Vagas" t-required>
       </thf-number>
+      <thf-number class="thf-md-2" t-disabled="true" formControlName="remainingVacancies" t-clean t-label="Vagas restantes" t-required>
+      </thf-number>
     </form>
   </div>
   <div class="thf-md-12">
     <thf-divider t-label="Disciplinas da turma">
     </thf-divider>
     <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Disciplina" (t-click)="openToAddDiscipline()"></thf-button>
-    <thf-button class="btn-page-actions" t-type="default" t-label="Criar nova Disciplina" (t-click)="openToAddStudent()"></thf-button>
+    <thf-button class="btn-page-actions" t-type="default" t-label="Criar nova Disciplina" (t-click)="createDiscipline()"></thf-button>
     <div class="disciplines">
-      {{schoolClassForm.controls['disciplines'].value | json}}
-
-      <thf-disclaimer-group [t-disclaimers]="[{ value: 'disclaimer' }]"></thf-disclaimer-group>
+      <thf-disclaimer-group [t-disclaimers]="schoolClassForm.controls['disciplines']?.value"></thf-disclaimer-group>
     </div>
   </div>
   <div class="thf-row">
     <div class="thf-md-12">
       <thf-divider t-label="Alunos da turma">
       </thf-divider>
-      <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Aluno"  (t-click)="openToAddStudent()"></thf-button>
-      <thf-button class="btn-page-actions" t-type="default" t-label="Criar novo Aluno"></thf-button>
-      <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
-        [t-actions]="tableActions" [t-items]="schoolClassForm.controls['students'].value">
-      </thf-table>
+      <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Aluno" (t-click)="openToAddStudent()"></thf-button>
+      <thf-button class="btn-page-actions" t-type="default" t-label="Criar novo Aluno" (t-click)="createStudent()"></thf-button>
+      <div class="students-table">
+        <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
+          [t-actions]="tableActions" [t-items]="schoolClassForm.controls['students'].value">
+        </thf-table>
+      </div>
     </div>
   </div>
 </thf-page-edit>
 <app-student-not-in-school-class (studentsSelected)="addStudentsSelected($event)"></app-student-not-in-school-class>
 <app-discipline-not-in-school-class (disciplinesSelected)="addDisciplinesSelected($event)"></app-discipline-not-in-school-class>
+<app-student-edit (studentCreated)="addCreatedStudent($event)"></app-student-edit>
+<app-discipline-edit (disciplineCreated)="addCreatedDiscipline($event)"></app-discipline-edit>

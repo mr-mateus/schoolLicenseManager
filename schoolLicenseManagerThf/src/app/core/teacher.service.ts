@@ -1,45 +1,21 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageResponseEntity } from '../model/pageResponseEntity';
 import { Teacher } from '../model/teacher';
-import { HttpParams, HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { CrudService } from './crud.service';
 
-export const TEACHER_URI = `${environment.apiUri}/api/teachers`;
+export const TEACHER_URI = `teachers`;
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherService {
-
-  constructor(private http: HttpClient) { }
-
-  findAllPaging(page: string, size: string): Observable<PageResponseEntity<Teacher>> {
-    const params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<PageResponseEntity<Teacher>>(`${TEACHER_URI}`, { params: params });
-  }
-
-  findAll(): Observable<Array<Teacher>> {
-    return this.http.get<Array<Teacher>>(`${TEACHER_URI}`);
-  }
-
-  findById(id: number): Observable<Teacher> {
-    return this.http.get<Teacher>(`${TEACHER_URI}/${id}`);
+export class TeacherService extends CrudService<Teacher> {
+  initializeEndpoint(): void {
+    this.endpoint = TEACHER_URI;
   }
 
   findByNameContaining(name: string, page: string, size: string): Observable<PageResponseEntity<Teacher>> {
     const params = new HttpParams().set('name', name).set('page', page).set('size', size);
-    return this.http.get<PageResponseEntity<Teacher>>(`${TEACHER_URI}`, { params: params });
-  }
-
-  create(teacher: Teacher): Observable<Teacher> {
-    return this.http.post<Teacher>(`${TEACHER_URI}`, teacher);
-  }
-
-  update(teacher: Teacher): Observable<Teacher> {
-    return this.http.put<Teacher>(`${TEACHER_URI}`, teacher);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${TEACHER_URI}/${id}`);
+    return this.http.get<PageResponseEntity<Teacher>>(`${this.getUri()}`, { params: params });
   }
 }

@@ -7,30 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
 @Entity
+@EqualsAndHashCode(callSuper = false)
 public class Student extends Person {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long enrollment;
 
 	@Enumerated
 	@NotNull
 	private StudentType studentType;
-
-	public Long  getEnrollment() {
-		return enrollment;
-	}
-
-	public void setEnrollment(Long enrollment) {
-		this.enrollment = enrollment;
-	}
-
-	public StudentType getStudentType() {
-		return studentType;
-	}
-
-	public void setStudentType(StudentType studentType) {
-		this.studentType = studentType;
-	}
 }

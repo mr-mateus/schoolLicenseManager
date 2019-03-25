@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { ThfMenuItem } from '@totvs/thf-ui';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -3,8 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ThfModalAction, ThfModalComponent, ThfRadioGroupOption } from '@totvs/thf-ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TeacherService } from 'src/app/core/teacher.service';
 import { AcademicDegree, Teacher } from 'src/app/model/teacher';
+import { TeacherService } from 'src/app/core/teacher.service';
 
 @Component({
   selector: 'app-teacher-edit',

@@ -75,14 +75,14 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
         if (queryParams.name) {
           this.findDisciplineByInitials(queryParams.name);
         } else {
-          this.loadStudents();
+          this.loadDisciplines();
         }
       });
   }
 
-  loadStudents(page = this.page, size = this.size): void {
+  loadDisciplines(page = this.page, size = this.size): void {
     this.startLoading();
-    this.disciplineService.findAll(page + '', size + '')
+    this.disciplineService.findAllPaging(page + '', size + '')
       .pipe(
         takeUntil(this.destroy),
         finalize(() => { this.stopLoading(); }))
@@ -113,7 +113,20 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
 
   loadMore(): void {
     this.nextPage();
-    this.loadStudents();
+    if (this.disciplineInitialsFilter.trim() === '') {
+      this.loadDisciplines();
+    } else {
+      this.disciplineService.findByInitialsContaining(this.disciplineInitialsFilter, this.page + '', this.size + '')
+        .pipe(finalize(() => { this.stopLoading(); }))
+        .subscribe(students => {
+          if (this.disciplinePage.items && this.disciplinePage.items.length > 0) {
+            this.disciplinePage.hasNext = students.hasNext;
+            this.disciplinePage.items = this.disciplinePage.items.concat(students.items);
+          } else {
+            this.disciplinePage = students;
+          }
+        });
+    }
   }
 
   openForCreate(): void {

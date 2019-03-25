@@ -4,7 +4,7 @@ import { ThfModalAction, ThfModalComponent, ThfRadioGroupOption } from '@totvs/t
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { StudentService } from 'src/app/core/student.service';
-import { Student } from 'src/app/model/student';
+import { Student, StudentType } from 'src/app/model/student';
 
 @Component({
   selector: 'app-student-edit',
@@ -67,7 +67,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
-    const student = this.studentForm.value as Student;
+    const student: Student = {
+      cpf: this.studentForm.controls['cpf'].value,
+      studentType: this.studentForm.controls['studentType'].value,
+      email: this.studentForm.controls['email'].value,
+      name: this.studentForm.controls['name'].value
+    };
     // necessário para trabalhar com o thf-select, que não permite o valor 0 por default.
     student.studentType = student.studentType - 1;
     if (student.enrollment) {

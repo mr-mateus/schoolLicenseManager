@@ -7,6 +7,7 @@ export interface SchoolClass {
   year: number;
   period: number;
   vacancies: number;
+  remainingVacancies?: number;
   disciplines?: Array<Discipline>;
   students?: Array<Student>;
 

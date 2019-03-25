@@ -44,7 +44,7 @@ export class DisciplineNotInSchoolClassComponent implements OnInit {
   openToAddDiscipline(schoolClassDisciplines?: Array<Discipline>): void {
     this.disciplineAlreadySelected = schoolClassDisciplines;
     if (!this.disciplinePage.items || this.disciplinePage.items.length === 0) {
-      this.disciplineService.findAll(this.page + '', this.size + '').subscribe(students => {
+      this.disciplineService.findAllPaging(this.page + '', this.size + '').subscribe(students => {
         this.disciplinePage = students;
         if (schoolClassDisciplines && schoolClassDisciplines.length > 0) {
           this.disciplinePage.items.forEach(discipline => {
@@ -72,7 +72,7 @@ export class DisciplineNotInSchoolClassComponent implements OnInit {
 
   loadMoreDisciplines(): void {
     this.page += 1;
-    this.disciplineService.findAll(this.page + '', this.size + '').subscribe(students => {
+    this.disciplineService.findAllPaging(this.page + '', this.size + '').subscribe(students => {
       this.disciplinePage.hasNext = students.hasNext;
       this.disciplinePage.items = this.disciplinePage.items.concat(students.items);
       this.disciplineAlreadySelected.forEach(student => {
@@ -110,6 +110,13 @@ export class DisciplineNotInSchoolClassComponent implements OnInit {
 
   close(): void {
     this.thfModal.close();
+  }
+
+  resetComponent(): void {
+    this.page = 0;
+    this.size = 10;
+    this.disciplineAlreadySelected = new Array<Discipline>();
+    this.disciplinePage = { hasNext: false, items: [] };
   }
 
 }

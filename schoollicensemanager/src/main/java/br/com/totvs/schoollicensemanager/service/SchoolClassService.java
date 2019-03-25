@@ -17,6 +17,8 @@ public interface SchoolClassService {
 	public SchoolClass create(SchoolClass schoolClass);
 	
 	public SchoolClass update(SchoolClass schoolClass);
+	
+	public void deleteById(Long id);
 
 	public Page<SchoolClass> findAll(String string, String string2);
 

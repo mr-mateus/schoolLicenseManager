@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.totvs.schoollicensemanager.model.SchoolClass;
-import br.com.totvs.schoollicensemanager.model.Student;
-import br.com.totvs.schoollicensemanager.repository.SchoolClassPagingRepository;
 import br.com.totvs.schoollicensemanager.repository.SchoolClassRepository;
 
 @RestController
@@ -21,9 +19,6 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 	@Autowired
 	private SchoolClassRepository schoolClassRepository;
 
-	@Autowired
-	private SchoolClassPagingRepository schoolClassPagingRepository;
-
 	@Override
 	public List<SchoolClass> findAll() {
 		return schoolClassRepository.findAll();
@@ -32,7 +27,7 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 	@Override
 	public Page<SchoolClass> findAll(String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return schoolClassPagingRepository.findAll(pageRequest);
+		return schoolClassRepository.findAll(pageRequest);
 	}
 
 	@Override
@@ -43,17 +38,34 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 	@Override
 	public Page<SchoolClass> findByDescriptionContaining(String description, String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return this.schoolClassPagingRepository.findByDescriptionContainingIgnoreCase(description, pageRequest);
+		return this.schoolClassRepository.findByDescriptionContainingIgnoreCase(description, pageRequest);
 	}
 
 	@Override
 	public SchoolClass create(SchoolClass schoolClass) {
+		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
+		validate(schoolClass);
 		return schoolClassRepository.save(schoolClass);
 	}
 
 	@Override
 	public SchoolClass update(SchoolClass schoolClass) {
+		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
+		validate(schoolClass);
 		return schoolClassRepository.save(schoolClass);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		this.schoolClassRepository.deleteById(id);
+	}
+
+	private void validate(SchoolClass schoolClass) {
+
+		if (schoolClass.getStudents() != null && schoolClass.getStudents().size() > 0
+				&& schoolClass.getStudents().size() > schoolClass.getRemainingVacancies()) {
+			throw new Error("Número de vagas da turma não comporta esse número de alunos");
+		}
 	}
 
 }

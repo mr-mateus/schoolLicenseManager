@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.totvs.schoollicensemanager.dto.StudentCreateDTO;
+import br.com.totvs.schoollicensemanager.dto.StudentUpdateDTO;
 import br.com.totvs.schoollicensemanager.model.PageResponseEntity;
 import br.com.totvs.schoollicensemanager.model.Student;
 import br.com.totvs.schoollicensemanager.service.StudentService;
@@ -23,7 +25,7 @@ public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
-	
+
 	@GetMapping(params = { "page", "size" })
 	public PageResponseEntity<Student> findAll(@RequestParam("page") String page, @RequestParam("size") String size) {
 		return new PageResponseEntity<Student>(studentService.findAll(page.toString(), size.toString()));
@@ -35,23 +37,24 @@ public class StudentController {
 	}
 
 	@GetMapping(params = { "name", "page", "size" })
-	public PageResponseEntity<Student> findByNameContaining(@RequestParam("name") String name, @RequestParam("page") String page, @RequestParam("size") String size) {
+	public PageResponseEntity<Student> findByNameContaining(@RequestParam("name") String name,
+			@RequestParam("page") String page, @RequestParam("size") String size) {
 		return new PageResponseEntity<Student>(this.studentService.findByNameContaining(name, page, size));
 	}
 
 	@PostMapping
-	public Student create(@Valid @RequestBody Student student) {
-		return this.studentService.create(student);
+	public Student create(@Valid @RequestBody StudentCreateDTO studentCreateDTO) {
+		return this.studentService.create(studentCreateDTO.convertToEntity());
 	}
 
 	@PutMapping
-	public Student update(@RequestBody Student student) {
-		return this.studentService.update(student);
+	public Student update(@RequestBody StudentUpdateDTO studentUpdateDTO) {
+		return this.studentService.update(studentUpdateDTO.convertToEntity());
 	}
-	
+
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id") Long enrollment) {
 		this.studentService.delete(enrollment);
 	}
-	
+
 }

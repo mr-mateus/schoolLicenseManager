@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { inject, TestModuleMetadata } from '@angular/core/testing';
+import { inject, TestModuleMetadata, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { SetUpTestBed } from 'src/test.common.spec';
-import { StudentService, STUDENTS_URI } from './student.service';
+import { StudentService } from './student.service';
 
 describe('StudentService', () => {
   const moduleDef: TestModuleMetadata = {
@@ -13,22 +12,28 @@ describe('StudentService', () => {
     ],
     providers: [StudentService]
   };
-  let studentService: StudentService;
-  let http: HttpClient;
   SetUpTestBed(moduleDef);
-  beforeAll((inject([StudentService, HttpClient], (_studentService: StudentService, _http: HttpClient) => {
-    studentService = _studentService;
-    http = _http;
-  })));
 
-  it('serviço deve ser criado', () => {
-    expect(studentService).toBeTruthy();
+  let studentService: StudentService;
+  fit('deve ser instanciado', () => {
+    spyOn(StudentService.prototype, 'initializeEndpoint').and.callThrough();
+    studentService = TestBed.get(StudentService);
+    expect(studentService.initializeEndpoint).toHaveBeenCalled();
+    expect(studentService.getEndpoint()).toEqual('students');
   });
 
-  it('deve chamar o serviço httpClient passando a url correta', async () => {
+  fit('deve fazer a busca pela nome do aluno', (inject([HttpClient], (httpMocked: HttpClient) => {
+    const http = httpMocked;
+
     spyOn(http, 'get').and.returnValue(of({}));
-    // studentService.findAll();
-    expect(http.get).toHaveBeenCalledWith(`${environment.apiUri}${STUDENTS_URI}`);
 
-  });
+    studentService = TestBed.get(StudentService);
+
+    const page = 122;
+    const size = 30;
+    const name = 'opa';
+    const params = new HttpParams().set('name', name).set('page', page + '').set('size', size + '');
+    studentService.findByNameContaining(name, page, size).subscribe();
+    expect(http.get).toHaveBeenCalledWith(studentService.getUri(), { params: params });
+  })));
 });

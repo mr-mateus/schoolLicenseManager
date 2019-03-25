@@ -15,7 +15,7 @@ import { ThfModule } from '@totvs/thf-ui';
   exports: [
     CommonModule,
     ThfModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

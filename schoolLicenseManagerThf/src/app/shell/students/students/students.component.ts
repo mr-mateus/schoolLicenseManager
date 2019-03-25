@@ -7,13 +7,19 @@ import { StudentEditComponent } from '../student-edit/student-edit.component';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
+  private filterPlaceholder = 'Nome do aluno';
+
+  getFilterPlaceholder(): string {
+    console.log('opa');
+    return this.filterPlaceholder;
+  }
+
   @ViewChild(StudentEditComponent) studentEdit: StudentEditComponent;
   readonly pageActions: Array<ThfPageAction> = [
     { label: 'Adicionar', action: this.openForCreate }
@@ -84,7 +90,7 @@ export class StudentsComponent implements OnInit {
 
   loadStudents(page = this.page, size = this.size): void {
     this.startLoading();
-    this.studentService.findAll(page, size)
+    this.studentService.findAllPaging(page + '', size + '')
       .pipe(
         takeUntil(this.destroy),
         finalize(() => { this.stopLoading(); }))
@@ -109,14 +115,26 @@ export class StudentsComponent implements OnInit {
   }
 
   findStudentByName(name: string) {
-    console.log(name);
     this.studentNameFilter = name;
     this.filterStudentByName(this.studentNameFilter);
   }
 
   loadMore(): void {
     this.nextPage();
-    this.loadStudents();
+    if (this.studentNameFilter.trim() === '') {
+      this.loadStudents();
+    } else {
+      this.studentService.findByNameContaining(this.studentNameFilter, this.page, this.size)
+        .pipe(finalize(() => { this.stopLoading(); }))
+        .subscribe(students => {
+          if (this.studentPage.items && this.studentPage.items.length > 0) {
+            this.studentPage.hasNext = students.hasNext;
+            this.studentPage.items = this.studentPage.items.concat(students.items);
+          } else {
+            this.studentPage = students;
+          }
+        });
+    }
   }
 
   openForCreate(): void {
@@ -132,13 +150,12 @@ export class StudentsComponent implements OnInit {
       title: 'Excluir',
       message: `Você deseja eliminar esse aluno?`,
       confirm: () => {
-        this.studentService.delete(student.enrollment)
+        this.studentService.delete(+student.enrollment)
           .subscribe(() => {
             this.resetPage();
             this.findStudentByName(student.name);
           });
       },
-
     });
 
   }
@@ -158,5 +175,4 @@ export class StudentsComponent implements OnInit {
   stopLoading(): void {
     this.isLoading = false;
   }
-
 }

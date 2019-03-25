@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ThfPageAction, ThfPageFilter, ThfTableAction, ThfTableColumn } from '@totvs/thf-ui';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { TeacherService } from 'src/app/core/teacher.service';
 import { PageResponseEntity } from 'src/app/model/pageResponseEntity';
 import { Teacher } from 'src/app/model/teacher';
 import { TeacherEditComponent } from '../teacher-edit/teacher-edit.component';
-import { Location } from '@angular/common';
+import { TeacherService } from 'src/app/core/teacher.service';
 
 @Component({
   selector: 'app-teachers',
@@ -78,7 +77,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .pipe(takeUntil(this.destroy))
       .subscribe(queryParams => {
-        console.log("opa eita");
         if (queryParams.name) {
           this.filterTeacherByName(queryParams.name);
         } else {
@@ -129,9 +127,22 @@ export class TeachersComponent implements OnInit, OnDestroy {
     this.teacherEditComponent.openForEdit(teacher);
   }
 
-  findMore(): void {
+  loadMore(): void {
     this.nextPage();
-    this.loadTeachers();
+    if (this.teacherNameFilter.trim() === '') {
+      this.loadTeachers();
+    } else {
+      this.teacherService.findByNameContaining(this.teacherNameFilter, this.page + '', this.size + '')
+        .pipe(finalize(() => { this.stopLoading(); }))
+        .subscribe(students => {
+          if (this.teacherPage.items && this.teacherPage.items.length > 0) {
+            this.teacherPage.hasNext = students.hasNext;
+            this.teacherPage.items = this.teacherPage.items.concat(students.items);
+          } else {
+            this.teacherPage = students;
+          }
+        });
+    }
   }
 
   deleteTeacher(teacher: Teacher) {

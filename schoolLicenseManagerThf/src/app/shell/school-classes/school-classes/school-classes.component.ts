@@ -6,8 +6,6 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { SchoolClassService } from 'src/app/core/school-class.service';
 import { PageResponseEntity } from 'src/app/model/pageResponseEntity';
 import { SchoolClass } from 'src/app/model/schoolClass';
-import { Teacher } from 'src/app/model/teacher';
-import { TeacherEditComponent } from '../../teachers/teacher-edit/teacher-edit.component';
 
 @Component({
   selector: 'app-school-classes',
@@ -30,7 +28,7 @@ export class SchoolClassesComponent implements OnInit, OnDestroy {
     { property: 'description', label: 'Descrição' },
     { property: 'year', label: 'Ano' },
     { property: 'period', label: 'Período' },
-    { property: 'vacancies', label: 'Vagas' }
+    { property: 'remainingVacancies', label: 'Vagas' }
   ];
 
   readonly tableActions: Array<ThfTableAction> = [
@@ -79,23 +77,23 @@ export class SchoolClassesComponent implements OnInit, OnDestroy {
         if (queryParams.description) {
           this.filterSchoolClassByDescription(queryParams.description);
         } else {
-          this.loadTeachers();
+          this.loadSchoolClasses();
         }
       });
   }
 
-  loadTeachers(): void {
+  loadSchoolClasses(): void {
     this.startLoading();
-    this.schoolClassService.findAll(this.page + '', this.size + '')
+    this.schoolClassService.findAllPaging(this.page + '', this.size + '')
       .pipe(
         finalize(() => this.stopLoading()),
         takeUntil(this.destroy))
-      .subscribe(teachers => {
-        this.schoolClassPage.hasNext = teachers.hasNext;
+      .subscribe(schoolClasses => {
+        this.schoolClassPage.hasNext = schoolClasses.hasNext;
         if (this.schoolClassPage.items.length > 0) {
-          this.schoolClassPage.items = this.schoolClassPage.items.concat(teachers.items);
+          this.schoolClassPage.items = this.schoolClassPage.items.concat(schoolClasses.items);
         } else {
-          this.schoolClassPage.items = teachers.items;
+          this.schoolClassPage.items = schoolClasses.items;
         }
       });
   }
@@ -108,14 +106,14 @@ export class SchoolClassesComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => this.stopLoading()),
         takeUntil(this.destroy))
-      .subscribe(teachers =>
-        this.schoolClassPage = teachers
+      .subscribe(schoolClasses =>
+        this.schoolClassPage = schoolClasses
       );
   }
 
-  findTeacherByName(name: string): void {
-    this.setSchoolClassDescriptionFilter(name);
-    this.filterSchoolClassByDescription(name);
+  findSchoolClassByDescription(description: string): void {
+    this.setSchoolClassDescriptionFilter(description);
+    this.filterSchoolClassByDescription(description);
   }
 
   openForCreate() {
@@ -126,9 +124,9 @@ export class SchoolClassesComponent implements OnInit, OnDestroy {
     this.router.navigate([`schoolClass/${schoolClass.id}`], { relativeTo: this.activatedRoute });
   }
 
-  findMore(): void {
+  loadMore(): void {
     this.nextPage();
-    this.loadTeachers();
+    this.loadSchoolClasses();
   }
 
   deleteSchoolClass(schoolClass: SchoolClass) {

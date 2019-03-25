@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ThfModalAction, ThfModalComponent, ThfPageAction, ThfTableAction, ThfTableColumn } from '@totvs/thf-ui';
+import { ThfModalAction, ThfModalComponent, ThfPageAction, ThfTableAction, ThfTableColumn, ThfDisclaimer } from '@totvs/thf-ui';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { SchoolClassService } from 'src/app/core/school-class.service';
@@ -12,6 +12,8 @@ import { Student } from 'src/app/model/student';
 import { StudentNotInSchoolClassComponent } from '../student-not-in-school-class/student-not-in-school-class.component';
 import { DisciplineNotInSchoolClassComponent } from '../discipline-not-in-school-class/discipline-not-in-school-class.component';
 import { Discipline } from 'src/app/model/discipline';
+import { StudentEditComponent } from '../../students/student-edit/student-edit.component';
+import { DisciplineEditComponent } from '../../disciplines/discipline-edit/discipline-edit.component';
 
 @Component({
   selector: 'app-school-class-edit',
@@ -22,6 +24,8 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
   @ViewChild(ThfModalComponent) thfModal: ThfModalComponent;
   @ViewChild(StudentNotInSchoolClassComponent) studentNotInSchoolClass: StudentNotInSchoolClassComponent;
   @ViewChild(DisciplineNotInSchoolClassComponent) disciplineNotInSchoolClass: DisciplineNotInSchoolClassComponent;
+  @ViewChild(StudentEditComponent) studentEdit: StudentEditComponent;
+  @ViewChild(DisciplineEditComponent) disciplineEdit: DisciplineEditComponent;
 
   readonly pageActions: Array<ThfPageAction> = [
     { label: 'Adicionar', action: this.openForCreate }
@@ -49,15 +53,12 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
     year: ['', Validators.required],
     period: ['', Validators.required],
     vacancies: ['', Validators.required],
+    remainingVacancies: [''],
     students: [''],
     disciplines: ['']
   });
 
   private destroy: Subject<void> = new Subject();
-
-  private page = 0;
-
-  private size = 10;
 
   @Output()
   schoolClassCreated = new EventEmitter<SchoolClass>();
@@ -108,9 +109,32 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
   }
 
   openToAddDiscipline(): void {
-    const disciplines = this.schoolClassForm.controls['disciplines'].value as Array<Discipline>;
+    const disciplineDisclaimers = this.schoolClassForm.controls['disciplines'].value as Array<ThfDisclaimer>;
+    let disciplines = [];
+    if (disciplineDisclaimers && disciplineDisclaimers.length > 0) {
+      disciplines = disciplineDisclaimers.map(disciplineDisclaimer => {
+        return disciplineDisclaimer.value;
+      });
+    }
     this.disciplineNotInSchoolClass.openToAddDiscipline(disciplines);
   }
+
+  addCreatedDiscipline(discipline: Discipline) {
+    const disciplinesForm = this.schoolClassForm.controls['disciplines'].value as Array<ThfDisclaimer>;
+    const disclaimer: ThfDisclaimer = {
+      label: discipline.initials,
+      value: discipline
+    };
+    disciplinesForm.push(disclaimer);
+    this.schoolClassForm.patchValue({
+      disciplines: disciplinesForm
+    })
+  }
+
+  createDiscipline(): void {
+    this.disciplineEdit.openForCreate();
+  }
+
 
   addStudentsSelected(studentsSelected: Array<Student>): void {
     this.schoolClassForm.patchValue({
@@ -118,10 +142,41 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  addDisciplinesSelected(disciplinesSelected: Array<Discipline>): void {
+  addCreatedStudent(student: Student): void {
+    const studentsForm = this.schoolClassForm.controls['students'].value as Array<Student>;
+    studentsForm.push(student);
     this.schoolClassForm.patchValue({
-      disciplines: disciplinesSelected
+      students: studentsForm
     });
+    this.disciplineNotInSchoolClass.resetComponent();
+  }
+
+  createStudent(): void {
+    this.studentEdit.openForCreate();
+  }
+
+  addDisciplinesSelected(disciplinesSelected: Array<Discipline>): void {
+    let disclaimers = [];
+    if (disciplinesSelected && disciplinesSelected.length > 0) {
+      disclaimers = disciplinesSelected.map<ThfDisclaimer>(discipline => {
+        const disclaimer: ThfDisclaimer = {
+          label: discipline.initials,
+          value: discipline
+        };
+        return disclaimer;
+      });
+    }
+    this.schoolClassForm.patchValue({
+      disciplines: disclaimers
+    });
+  }
+
+  getSchoolClassDisciplines(): Array<ThfDisclaimer> {
+    return undefined;
+  }
+
+  removeDiscipline(): void {
+    console.log('opa');
   }
 
   cancelAddStudentSelected(): void {
@@ -169,9 +224,10 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
       period: schoolClass.period,
       year: schoolClass.year,
       vacancies: schoolClass.vacancies,
-      students: schoolClass.students,
-      disciplines: schoolClass.disciplines
+      remainingVacancies: schoolClass.remainingVacancies,
+      students: schoolClass.students
     });
+    this.addDisciplinesSelected(schoolClass.disciplines);
   }
 
   private getSchoolClassFromForm(): SchoolClass {
@@ -180,10 +236,15 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
       description: this.schoolClassForm.get('description').value,
       period: this.schoolClassForm.get('period').value,
       vacancies: this.schoolClassForm.get('vacancies').value,
+      remainingVacancies: this.schoolClassForm.get('remainingVacancies').value,
       year: this.schoolClassForm.get('year').value,
       students: this.schoolClassForm.get('students').value,
-      disciplines: this.schoolClassForm.get('disciplines').value
     };
+    const disciplineDisclaimers = this.schoolClassForm.get('disciplines').value;
+    const disciplines = disciplineDisclaimers.map(disciplineDisclaimer => {
+      return disciplineDisclaimer.value;
+    });
+    schoolClass.disciplines = disciplines;
 
     return schoolClass;
 

@@ -11,7 +11,7 @@ import { SetUpTestBed } from 'src/test.common.spec';
 import { StudentNotInSchoolClassComponent } from './student-not-in-school-class.component';
 
 
-fdescribe('StudentNotInSchoolClassComponent', () => {
+xdescribe('StudentNotInSchoolClassComponent', () => {
   let component: StudentNotInSchoolClassComponent;
   let fixture: ComponentFixture<StudentNotInSchoolClassComponent>;
 
@@ -46,7 +46,7 @@ fdescribe('StudentNotInSchoolClassComponent', () => {
     expect(component.studentsSelected.emit).toHaveBeenCalledWith([]);
   });
 
-  fit('deve retornar a lista com os objetos que já estavam selecionados', () => {
+  it('deve retornar a lista com os objetos que já estavam selecionados', () => {
     const students =
       [
         { 'name': 'Joanas', 'email': 'joana@teste.com', 'cpf': '01234567892', 'enrollment': '3', 'studentType': 1 },
@@ -68,7 +68,7 @@ fdescribe('StudentNotInSchoolClassComponent', () => {
     expect(component.studentsSelected.emit).toHaveBeenCalledWith(students);
   });
 
-  fit('ao retirar a propriedade $selected do primeiro item do array, deve retornar apenas os que estão com essa propriedade', () => {
+  it('ao retirar a propriedade $selected do primeiro item do array, deve retornar apenas os que estão com essa propriedade', () => {
     spyOn(component.studentsSelected, 'emit').and.callThrough();
     const joanStudent = { 'name': 'Joanas', 'email': 'joana@teste.com', 'cpf': '01234567892', 'enrollment': '3', 'studentType': 1 };
     const carlasStudent = { 'name': 'Carlas', 'email': 'carlas@teste.com', 'cpf': '01234567893', 'enrollment': '4', 'studentType': 2 };
@@ -96,7 +96,7 @@ fdescribe('StudentNotInSchoolClassComponent', () => {
     expect(component.studentsSelected.emit).toHaveBeenCalledWith([carlasStudent]);
   });
 
-  fit('ao retirar a propriedade $selected do primeiro item do array, deve retornar apenas os que estão com essa propriedade', () => {
+  it('ao retirar a propriedade $selected do primeiro item do array, deve retornar apenas os que estão com essa propriedade', () => {
     spyOn(component.studentsSelected, 'emit').and.callThrough();
     const joanStudent = { 'name': 'Joanas', 'email': 'joana@teste.com', 'cpf': '01234567892', 'enrollment': '3', 'studentType': 1 };
     const carlasStudent = { 'name': 'Carlas', 'email': 'carlas@teste.com', 'cpf': '01234567893', 'enrollment': '4', 'studentType': 2 };

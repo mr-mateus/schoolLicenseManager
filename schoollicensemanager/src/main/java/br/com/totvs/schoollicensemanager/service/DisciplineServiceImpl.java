@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.totvs.schoollicensemanager.model.Discipline;
-import br.com.totvs.schoollicensemanager.repository.DisciplinePagingRepository;
 import br.com.totvs.schoollicensemanager.repository.DisciplineRepository;
 
 @Service
@@ -16,13 +15,11 @@ public class DisciplineServiceImpl implements DisciplineService {
 	@Autowired
 	private DisciplineRepository disciplineRepository;
 	
-	@Autowired
-	private DisciplinePagingRepository disciplinePagingRepository;
 
 	@Override
 	public Page<Discipline> findAll(String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return this.disciplinePagingRepository.findAllByOrderById(pageRequest);
+		return this.disciplineRepository.findAllByOrderById(pageRequest);
 	}
 
 	@Override
@@ -43,7 +40,7 @@ public class DisciplineServiceImpl implements DisciplineService {
 	@Override
 	public Page<Discipline> findByInitialsContaining(String name, String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return this.disciplinePagingRepository.findByInitialsContainingIgnoreCase(name, pageRequest);
+		return this.disciplineRepository.findByInitialsContainingIgnoreCase(name, pageRequest);
 	}
 
 	@Override
@@ -53,17 +50,7 @@ public class DisciplineServiceImpl implements DisciplineService {
 	
 	@Override
 	public Discipline addTeacher(Long id, Long teacherId) throws Exception {
-		/*if (!this.disciplineRepository.existsById(id)) {
-			throw new Exception("Discipline: " + id + " not found");
-		}
-		if (!disciplineRepository.existsById(teacherId)) {
-			throw new Exception("Discipline: " + id + " not found");
-		}
-
-		Discipline discipline = disciplineRepository.findById(id).get();
-		Teacher teacher = disciplineRepository.findById(teacherId).get();
-		discipline.setTeacher(teacher);*/
-		//return disciplineRepository.save(discipline);
+		
 		return null; 
 	}
 

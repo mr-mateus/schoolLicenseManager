@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.totvs.schoollicensemanager.exception.PropertyAlreadyExistException;
 import br.com.totvs.schoollicensemanager.exception.ResourceNotFoundException;
 import br.com.totvs.schoollicensemanager.model.Student;
-import br.com.totvs.schoollicensemanager.repository.StudentPagingRepository;
 import br.com.totvs.schoollicensemanager.repository.StudentRepository;
 
 @Service
@@ -17,9 +16,6 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentRepository studentRepository;
-
-	@Autowired
-	private StudentPagingRepository studentPagingRepository;
 
 	@Override
 	public Student findById(Long id) {
@@ -45,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Page<Student> findAll(String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return this.studentPagingRepository.findAllByOrderByEnrollment(pageRequest);
+		return this.studentRepository.findAllByOrderByEnrollment(pageRequest);
 
 	}
 
@@ -70,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Page<Student> findByNameContaining(String name, String page, String size) {
 		Pageable pageRequest = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
-		return this.studentPagingRepository.findByNameContainingIgnoreCase(name, pageRequest);
+		return this.studentRepository.findByNameContainingIgnoreCase(name, pageRequest);
 	}
 
 	@Override

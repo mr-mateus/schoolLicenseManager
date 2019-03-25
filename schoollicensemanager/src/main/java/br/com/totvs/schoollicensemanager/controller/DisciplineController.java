@@ -28,7 +28,7 @@ public class DisciplineController {
 	}
 	
 	@GetMapping(params = { "name", "page", "size" })
-	public PageResponseEntity<Discipline> findByNameContaining(@RequestParam("name") String name, @RequestParam("page") String page, @RequestParam("size") String size) {
+	public PageResponseEntity<Discipline> findByNameContaining(@RequestParam("name") String name, @RequestParam("page") String page, @RequestParam("size") String size) {		
 		return new PageResponseEntity<Discipline>(this.disciplineService.findByInitialsContaining(name, page, size));
 	}
 	
