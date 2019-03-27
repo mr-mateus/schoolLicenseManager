@@ -3,7 +3,7 @@ import { Person } from './Person';
 export interface Student extends Person {
 
   enrollment?: string;
-  studentType: StudentType;
+  studentType: any;
 }
 
 export enum StudentType {

@@ -68,6 +68,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   save(): void {
     const student: Student = {
+      enrollment: this.studentForm.controls['enrollment'].value,
       cpf: this.studentForm.controls['cpf'].value,
       studentType: this.studentForm.controls['studentType'].value,
       email: this.studentForm.controls['email'].value,
