@@ -54,8 +54,8 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
     period: ['', Validators.required],
     vacancies: ['', Validators.required],
     remainingVacancies: [''],
-    students: [''],
-    disciplines: ['']
+    students: [[]],
+    disciplines: [[]]
   });
 
   private destroy: Subject<void> = new Subject();
@@ -208,7 +208,7 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy))
         .subscribe(schoolClassCreated => {
           this.schoolClassCreated.emit(schoolClassCreated);
-          this.router.navigate(['schoolClasses']);
+          this.router.navigate(['schoolClasses'], { queryParams: { description: schoolClassCreated.description } });
         });
     }
   }
@@ -232,19 +232,21 @@ export class SchoolClassEditComponent implements OnInit, OnDestroy {
 
   private getSchoolClassFromForm(): SchoolClass {
     const schoolClass: SchoolClass = {
-      id: this.schoolClassForm.get('id').value,
       description: this.schoolClassForm.get('description').value,
       period: this.schoolClassForm.get('period').value,
       vacancies: this.schoolClassForm.get('vacancies').value,
       remainingVacancies: this.schoolClassForm.get('remainingVacancies').value,
       year: this.schoolClassForm.get('year').value,
-      students: this.schoolClassForm.get('students').value,
     };
+    schoolClass.id = this.schoolClassForm.get('id').value;
+    schoolClass.students = this.schoolClassForm.get('students').value;
     const disciplineDisclaimers = this.schoolClassForm.get('disciplines').value;
-    const disciplines = disciplineDisclaimers.map(disciplineDisclaimer => {
-      return disciplineDisclaimer.value;
-    });
-    schoolClass.disciplines = disciplines;
+    if (disciplineDisclaimers && disciplineDisclaimers.length > 0) {
+      const disciplines = disciplineDisclaimers.map(disciplineDisclaimer => {
+        return disciplineDisclaimer.value;
+      });
+      schoolClass.disciplines = disciplines;
+    }
 
     return schoolClass;
 

@@ -1,31 +1,25 @@
-import { browser, $$, $, ElementFinder } from 'protractor';
-import { IfStmt } from '@angular/compiler';
-import { Student } from 'src/app/model/student';
+import { $, ElementFinder } from 'protractor';
 
 export class SchoolClassFormPage {
 
 
-  name(): ElementFinder {
-    return $('[formcontrolname=name] input');
+  description(): ElementFinder {
+    return $('[formcontrolname=description] input');
   }
 
-  cpf(): ElementFinder {
-    return $('[formcontrolname=cpf] input');
+  year(): ElementFinder {
+    return $('[formcontrolname=year] input');
   }
 
-  email(): ElementFinder {
-    return $('[formcontrolname=email] input');
+  period(): ElementFinder {
+    return $('[formcontrolname=period] input');
   }
 
-  async chooseStudentType(type: string) {
-    if (type.toLowerCase().trim() === 'enade') {
-      await $$('.thf-radio-group-label').get(0).click();
-    } else {
-      await $$('.thf-radio-group-label').get(1).click();
-    }
+  vacancies(): ElementFinder {
+    return $('[formcontrolname=vacancies] input');
   }
 
   save() {
-    return $('.thf-button-modal-first-action button');
+    return $('.thf-page-header-actions thf-button button.thf-button-primary');
   }
 }

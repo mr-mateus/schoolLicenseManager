@@ -28,8 +28,8 @@ export class StudentsPage {
   }
 
   async createStudent(student: Student) {
-    const studentFormPage = new StudentFormPage();
     await this.buttonAdd().click();
+    const studentFormPage = new StudentFormPage();
     await studentFormPage.name().sendKeys(student.name);
     await studentFormPage.cpf().sendKeys(student.cpf);
     await studentFormPage.email().sendKeys(student.email);

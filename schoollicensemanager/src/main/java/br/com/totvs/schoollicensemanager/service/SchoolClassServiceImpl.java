@@ -43,15 +43,15 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 
 	@Override
 	public SchoolClass create(SchoolClass schoolClass) {
-		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
 		validate(schoolClass);
+		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
 		return schoolClassRepository.save(schoolClass);
 	}
 
 	@Override
 	public SchoolClass update(SchoolClass schoolClass) {
-		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
 		validate(schoolClass);
+		schoolClass.setRemainingVacancies(schoolClass.getVacancies() - schoolClass.getStudents().size());
 		return schoolClassRepository.save(schoolClass);
 	}
 
@@ -61,9 +61,8 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 	}
 
 	private void validate(SchoolClass schoolClass) {
-
-		if (schoolClass.getStudents() != null && schoolClass.getStudents().size() > 0
-				&& schoolClass.getStudents().size() > schoolClass.getRemainingVacancies()) {
+		int remainingVacancies = schoolClass.getVacancies() - schoolClass.getStudents().size();
+		if(remainingVacancies < 0) {
 			throw new Error("Número de vagas da turma não comporta esse número de alunos");
 		}
 	}

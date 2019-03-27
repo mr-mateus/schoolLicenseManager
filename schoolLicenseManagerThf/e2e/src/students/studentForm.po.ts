@@ -6,15 +6,15 @@ export class StudentFormPage {
 
 
   name(): ElementFinder {
-    return $('[formcontrolname=name] input');
+    return $('thf-modal [formcontrolname=name] input');
   }
 
   cpf(): ElementFinder {
-    return $('[formcontrolname=cpf] input');
+    return $('thf-modal [formcontrolname=cpf] input');
   }
 
   email(): ElementFinder {
-    return $('[formcontrolname=email] input');
+    return $('thf-modal [formcontrolname=email] input');
   }
 
   async chooseStudentType(type: string) {
@@ -26,6 +26,6 @@ export class StudentFormPage {
   }
 
   save() {
-    return $('.thf-button-modal-first-action button');
+    return $('thf-modal .thf-button-modal-first-action button');
   }
 }

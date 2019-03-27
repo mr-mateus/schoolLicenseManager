@@ -20,7 +20,7 @@
       </thf-number>
     </form>
   </div>
-  <div class="thf-md-12">
+  <div class="thf-md-12" id="disciplines">
     <thf-divider t-label="Disciplinas da turma">
     </thf-divider>
     <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Disciplina" (t-click)="openToAddDiscipline()"></thf-button>
@@ -29,17 +29,15 @@
       <thf-disclaimer-group [t-disclaimers]="schoolClassForm.controls['disciplines']?.value"></thf-disclaimer-group>
     </div>
   </div>
-  <div class="thf-row">
-    <div class="thf-md-12">
-      <thf-divider t-label="Alunos da turma">
-      </thf-divider>
-      <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Aluno" (t-click)="openToAddStudent()"></thf-button>
-      <thf-button class="btn-page-actions" t-type="default" t-label="Criar novo Aluno" (t-click)="createStudent()"></thf-button>
-      <div class="students-table">
-        <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
-          [t-actions]="tableActions" [t-items]="schoolClassForm.controls['students'].value">
-        </thf-table>
-      </div>
+  <div class="thf-md-12" id="students">
+    <thf-divider t-label="Alunos da turma">
+    </thf-divider>
+    <thf-button class="btn-page-actions" t-type="primary" t-label="Adicionar Aluno" (t-click)="openToAddStudent()"></thf-button>
+    <thf-button class="btn-page-actions" t-type="default" t-label="Criar novo Aluno" (t-click)="createStudent()"></thf-button>
+    <div class="students-table">
+      <thf-table t-hide-select-all="true" t-hide-text-overflow t-sort="true" t-striped="true" [t-columns]="tableColumns"
+        [t-actions]="tableActions" [t-items]="schoolClassForm.controls['students'].value">
+      </thf-table>
     </div>
   </div>
 </thf-page-edit>
