@@ -6,7 +6,7 @@ import { SetUpTestBed } from 'src/test.common.spec';
 import { DisciplineService } from './discipline.service';
 
 
-fdescribe('DisciplineService', () => {
+describe('DisciplineService', () => {
   const moduleDef: TestModuleMetadata = {
     imports: [
       HttpClientModule,
@@ -17,14 +17,14 @@ fdescribe('DisciplineService', () => {
   SetUpTestBed(moduleDef);
   let disciplineService: DisciplineService;
 
-  fit('deve ser instanciado', () => {
+  it('deve ser instanciado', () => {
     spyOn(DisciplineService.prototype, 'initializeEndpoint').and.callThrough();
     disciplineService = TestBed.get(DisciplineService);
     expect(disciplineService.initializeEndpoint).toHaveBeenCalled();
     expect(disciplineService.getEndpoint()).toEqual('disciplines');
   });
 
-  fit('deve fazer a busca pela sigla da disciplina', (inject([HttpClient], (httpMocked: HttpClient) => {
+  it('deve fazer a busca pela sigla da disciplina', (inject([HttpClient], (httpMocked: HttpClient) => {
     const http = httpMocked;
 
     spyOn(http, 'get').and.returnValue(of({}));

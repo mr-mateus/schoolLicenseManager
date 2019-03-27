@@ -12,7 +12,7 @@ export class Teste extends CrudService<string> {
   }
 }
 
-fdescribe('CrudService', () => {
+describe('CrudService', () => {
   const moduleDef: TestModuleMetadata = {
     imports: [
       HttpClientModule,
@@ -62,6 +62,13 @@ fdescribe('CrudService', () => {
     beforeAll((inject([HttpClient], (httpMocked: HttpClient) => {
       http = httpMocked;
     })));
+
+    it('deve buscar todos os registros sem o uso de paginação utilizando o método get', () => {
+      spyOn(http, 'get').and.returnValue(of({}));
+      teste = TestBed.get(Teste);
+      teste.findAll().subscribe();
+      expect(http.get).toHaveBeenCalledWith('/api/teste');
+    });
 
     it('deve buscar todos os registros usando paginação utilizando o método get', () => {
       spyOn(http, 'get').and.returnValue(of({}));

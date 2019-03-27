@@ -93,11 +93,9 @@ export class TeachersComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy))
       .subscribe(teachers => {
         this.teacherPage.hasNext = teachers.hasNext;
-        if (this.teacherPage.items.length > 0) {
-          this.teacherPage.items = this.teacherPage.items.concat(teachers.items);
-        } else {
-          this.teacherPage.items = teachers.items;
-        }
+        this.teacherPage.items =
+          (this.teacherPage.items && this.teacherPage.items.length > 0) ? this.teacherPage.items.concat(teachers.items)
+            : teachers.items;
       });
   }
 
@@ -115,7 +113,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
   }
 
   findTeacherByName(name: string): void {
-    this.setTeacherNameFilter(name);
     this.filterTeacherByName(name);
   }
 
@@ -134,13 +131,9 @@ export class TeachersComponent implements OnInit, OnDestroy {
     } else {
       this.teacherService.findByNameContaining(this.teacherNameFilter, this.page + '', this.size + '')
         .pipe(finalize(() => { this.stopLoading(); }))
-        .subscribe(students => {
-          if (this.teacherPage.items && this.teacherPage.items.length > 0) {
-            this.teacherPage.hasNext = students.hasNext;
-            this.teacherPage.items = this.teacherPage.items.concat(students.items);
-          } else {
-            this.teacherPage = students;
-          }
+        .subscribe(teachers => {
+          this.teacherPage.hasNext = teachers.hasNext;
+          this.teacherPage.items = this.teacherPage.items.concat(teachers.items);
         });
     }
   }
@@ -149,7 +142,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     this.startLoading();
     this.teacherService.delete(teacher.id)
       .pipe(
-        finalize(() => this.stopLoading),
+        finalize(() => this.stopLoading()),
         takeUntil(this.destroy))
       .subscribe(() => {
         this.resetPage();
@@ -159,10 +152,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
 
   setTeacherNameFilter(name: string) {
     this.teacherNameFilter = name;
-  }
-
-  clearTeacherNameFilter(): void {
-    this.teacherNameFilter = '';
   }
 
   nextPage(): void {

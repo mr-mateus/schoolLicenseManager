@@ -15,14 +15,14 @@ describe('StudentService', () => {
   SetUpTestBed(moduleDef);
 
   let studentService: StudentService;
-  fit('deve ser instanciado', () => {
+  it('deve ser instanciado', () => {
     spyOn(StudentService.prototype, 'initializeEndpoint').and.callThrough();
     studentService = TestBed.get(StudentService);
     expect(studentService.initializeEndpoint).toHaveBeenCalled();
     expect(studentService.getEndpoint()).toEqual('students');
   });
 
-  fit('deve fazer a busca pela nome do aluno', (inject([HttpClient], (httpMocked: HttpClient) => {
+  it('deve fazer a busca pela nome do aluno', (inject([HttpClient], (httpMocked: HttpClient) => {
     const http = httpMocked;
 
     spyOn(http, 'get').and.returnValue(of({}));

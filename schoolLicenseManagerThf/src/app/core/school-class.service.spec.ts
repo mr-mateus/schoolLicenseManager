@@ -6,7 +6,7 @@ import { SchoolClassService } from './school-class.service';
 import { of } from 'rxjs';
 import { SchoolClass } from '../model/schoolClass';
 
-fdescribe('SchoolClassService', () => {
+describe('SchoolClassService', () => {
   const moduleDef: TestModuleMetadata = {
     imports: [
       HttpClientModule,
@@ -17,14 +17,14 @@ fdescribe('SchoolClassService', () => {
   SetUpTestBed(moduleDef);
   let schoolClassService: SchoolClassService;
 
-  fit('deve ser instanciado', () => {
+  it('deve ser instanciado', () => {
     spyOn(SchoolClassService.prototype, 'initializeEndpoint').and.callThrough();
     schoolClassService = TestBed.get(SchoolClassService);
     expect(schoolClassService.initializeEndpoint).toHaveBeenCalled();
     expect(schoolClassService.getEndpoint()).toEqual('schoolClasses');
   });
 
-  fit('deve fazer a busca pela descrição da turma', (inject([HttpClient], (httpMocked: HttpClient) => {
+  it('deve fazer a busca pela descrição da turma', (inject([HttpClient], (httpMocked: HttpClient) => {
     const http = httpMocked;
 
     spyOn(http, 'get').and.returnValue(of({}));
@@ -39,7 +39,7 @@ fdescribe('SchoolClassService', () => {
     expect(http.get).toHaveBeenCalledWith(schoolClassService.getUri(), { params: params });
   })));
 
-  fit('deve retornar um objeto com as propriedades nulas', () => {
+  it('deve retornar um objeto com as propriedades nulas', () => {
     schoolClassService = TestBed.get(SchoolClassService);
     const schoolClass: SchoolClass = {
       description: null,

@@ -22,8 +22,6 @@ export abstract class CrudService<T> {
   getEndpoint(): string {
     if (!this.endpoint) {
       throw Error('Endpoint deve ser initializado');
-    } else if (this.endpoint.trim() === '') {
-      throw Error('Endpoint deve ser diferente de branco');
     }
     return this.endpoint;
   }

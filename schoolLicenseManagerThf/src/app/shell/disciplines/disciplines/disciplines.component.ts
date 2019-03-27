@@ -72,8 +72,8 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .pipe(takeUntil(this.destroy))
       .subscribe(queryParams => {
-        if (queryParams.name) {
-          this.findDisciplineByInitials(queryParams.name);
+        if (queryParams.initials) {
+          this.filterDisciplineByInitials(queryParams.initials);
         } else {
           this.loadDisciplines();
         }
@@ -99,6 +99,7 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
   filterDisciplineByInitials(filter = this.disciplineInitialsFilter): void {
     this.resetPage();
     this.startLoading();
+    this.setDisciplineInitialFilter(filter);
     this.disciplineService.findByInitialsContaining(filter, this.page + '', this.size + '')
       .pipe(finalize(() => { this.stopLoading(); }))
       .subscribe(disciplines => {
@@ -119,12 +120,8 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
       this.disciplineService.findByInitialsContaining(this.disciplineInitialsFilter, this.page + '', this.size + '')
         .pipe(finalize(() => { this.stopLoading(); }))
         .subscribe(students => {
-          if (this.disciplinePage.items && this.disciplinePage.items.length > 0) {
             this.disciplinePage.hasNext = students.hasNext;
             this.disciplinePage.items = this.disciplinePage.items.concat(students.items);
-          } else {
-            this.disciplinePage = students;
-          }
         });
     }
   }
@@ -143,6 +140,10 @@ export class DisciplinesComponent implements OnInit, OnDestroy {
         this.resetPage();
         this.findDisciplineByInitials(discipline.initials);
       });
+  }
+
+  setDisciplineInitialFilter(disciplineInitialFilter: string): void {
+    this.disciplineInitialsFilter = disciplineInitialFilter;
   }
 
   nextPage(): void {

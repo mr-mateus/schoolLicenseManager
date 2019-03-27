@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DisciplineNotInSchoolClassComponent } from './discipline-not-in-school-class.component';
 
-describe('DisciplineNotInSchoolClassComponent', () => {
+xdescribe('DisciplineNotInSchoolClassComponent', () => {
   let component: DisciplineNotInSchoolClassComponent;
   let fixture: ComponentFixture<DisciplineNotInSchoolClassComponent>;
 

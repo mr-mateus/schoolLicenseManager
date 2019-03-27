@@ -13,13 +13,6 @@ import { Subject } from 'rxjs';
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
-  private filterPlaceholder = 'Nome do aluno';
-
-  getFilterPlaceholder(): string {
-    console.log('opa');
-    return this.filterPlaceholder;
-  }
-
   @ViewChild(StudentEditComponent) studentEdit: StudentEditComponent;
   readonly pageActions: Array<ThfPageAction> = [
     { label: 'Adicionar', action: this.openForCreate }
@@ -49,7 +42,7 @@ export class StudentsComponent implements OnInit {
     },
     {
       label: 'Excluir',
-      action: this.deleteStudent.bind(this),
+      action: this.confirmStudentDelete.bind(this),
       icon: 'thf-icon thf-icon-delete'
     }
   ];
@@ -107,6 +100,7 @@ export class StudentsComponent implements OnInit {
   filterStudentByName(filter = this.studentNameFilter): void {
     this.resetPage();
     this.startLoading();
+    this.setStudentNameFilter(filter);
     this.studentService.findByNameContaining(filter, this.page, this.size)
       .pipe(finalize(() => { this.stopLoading(); }))
       .subscribe(students => {
@@ -127,12 +121,8 @@ export class StudentsComponent implements OnInit {
       this.studentService.findByNameContaining(this.studentNameFilter, this.page, this.size)
         .pipe(finalize(() => { this.stopLoading(); }))
         .subscribe(students => {
-          if (this.studentPage.items && this.studentPage.items.length > 0) {
             this.studentPage.hasNext = students.hasNext;
             this.studentPage.items = this.studentPage.items.concat(students.items);
-          } else {
-            this.studentPage = students;
-          }
         });
     }
   }
@@ -145,19 +135,29 @@ export class StudentsComponent implements OnInit {
     this.studentEdit.openForEdit(student);
   }
 
-  deleteStudent(student: Student): void {
+  confirmStudentDelete(student: Student): void {
     this.thfDialog.confirm({
       title: 'Excluir',
       message: `Você deseja eliminar esse aluno?`,
       confirm: () => {
-        this.studentService.delete(+student.enrollment)
-          .subscribe(() => {
-            this.resetPage();
-            this.findStudentByName(student.name);
-          });
+        this.deleteStudent(student);
       },
     });
+  }
 
+  deleteStudent(student: Student): void {
+    this.studentService.delete(+student.enrollment)
+      .pipe(
+        finalize(() => this.stopLoading()),
+        takeUntil(this.destroy))
+      .subscribe(() => {
+        this.resetPage();
+        this.findStudentByName(student.name);
+      });
+  }
+
+  setStudentNameFilter(name: string): void {
+    this.studentNameFilter = name;
   }
 
   nextPage(): void {

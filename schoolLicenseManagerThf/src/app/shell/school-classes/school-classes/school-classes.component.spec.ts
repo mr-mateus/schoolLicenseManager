@@ -6,8 +6,7 @@ import { StudentService } from 'src/app/core/student.service';
 import { SetUpTestBed } from 'src/test.common.spec';
 import { SchoolClassesComponent } from './school-classes.component';
 
-
-describe('SchoolClassesComponent', () => {
+xdescribe('SchoolClassesComponent', () => {
   let component: SchoolClassesComponent;
   let fixture: ComponentFixture<SchoolClassesComponent>;
   const moduleDef: TestModuleMetadata = {

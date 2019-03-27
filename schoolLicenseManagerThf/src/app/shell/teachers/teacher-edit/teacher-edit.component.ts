@@ -52,7 +52,7 @@ export class TeacherEditComponent implements OnInit, OnDestroy {
   constructor(private teacherService: TeacherService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.checkFormValid();
+    this.subscribeFormState();
   }
 
   ngOnDestroy(): void {
@@ -70,9 +70,7 @@ export class TeacherEditComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
-    const teacher = this.teacherForm.value as Teacher;
-    // necessário para trabalhar com o thf-select, que não permite o valor 0 por default.
-    teacher.academicDegree = teacher.academicDegree - 1;
+    const teacher = this.getTeacherFromForm();
     if (teacher.id) {
       this.teacherService.update(teacher)
         .pipe(takeUntil(this.destroy))
@@ -99,7 +97,7 @@ export class TeacherEditComponent implements OnInit, OnDestroy {
     this.resetForm();
   }
 
-  private checkFormValid(): void {
+  private subscribeFormState(): void {
     this.teacherForm.statusChanges
       .pipe(
         takeUntil(this.destroy))
@@ -123,10 +121,11 @@ export class TeacherEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  private transformEnumToAcademicDegreeRadioOption(academicDegree: AcademicDegree): number {
+  private transformEnumToAcademicDegreeRadioOption(academicDegree: string): number {
     /*devido a limiteção do THF, enum em tela, o ThfSelect deve começar com o valor 1
     * necessário transformar para o valor que a entidade no banco de dados aceite
     */
+
     switch (academicDegree.toString()) {
       case 'MESTRE':
         return 1;
@@ -137,5 +136,12 @@ export class TeacherEditComponent implements OnInit, OnDestroy {
       case 'PHD':
         return 3;
     }
+  }
+
+  private getTeacherFromForm(): Teacher {
+    const teacher = this.teacherForm.value as Teacher;
+    // necessário para trabalhar com o thf-select, que não permite o valor 0 por default.
+    teacher.academicDegree = teacher.academicDegree - 1;
+    return teacher;
   }
 }

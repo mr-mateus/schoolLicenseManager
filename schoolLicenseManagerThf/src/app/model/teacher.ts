@@ -2,9 +2,11 @@ import { Person } from './Person';
 
 export interface Teacher extends Person {
   id?: number;
-  academicDegree: AcademicDegree;
+  academicDegree: any;
 }
 
 export enum AcademicDegree {
-  MESTRE, DOUTOR, PHD
+  MESTRE,
+  DOUTOR,
+  PHD
 }

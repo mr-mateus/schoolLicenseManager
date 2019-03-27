@@ -9,7 +9,7 @@ describe('FormUtil', () => {
   };
   SetUpTestBed(moduleDef);
 
-  fit('quando o formulário estiver válido deve retornar true', (inject([FormBuilder], (fb: FormBuilder) => {
+  it('quando o formulário estiver válido deve retornar true', (inject([FormBuilder], (fb: FormBuilder) => {
     const form = fb.group({
       id: ['', Validators.required]
     });
@@ -17,7 +17,7 @@ describe('FormUtil', () => {
     expect(FormUtil.validate(form)).toBeTruthy();
   })));
 
-  fit('quando o formulário deve lançar uma exceção quando estiver inválido', (inject([FormBuilder], (fb: FormBuilder) => {
+  it('quando o formulário deve lançar uma exceção quando estiver inválido', (inject([FormBuilder], (fb: FormBuilder) => {
     const form = fb.group({
       id: ['', Validators.required]
     });

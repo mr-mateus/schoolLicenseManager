@@ -13,7 +13,6 @@ export class StudentService extends CrudService<Student> {
     this.endpoint = STUDENTS_URI;
   }
   findByNameContaining(name: string, page: number, size: number): Observable<PageResponseEntity<Student>> {
-    console.log(page);
     const params = new HttpParams().set('name', name).set('page', page.toString()).set('size', size.toString());
     return this.http.get<PageResponseEntity<Student>>(`${this.getUri()}`, { params: params });
   }
