@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.totvs.schoollicensemanager.model.Student;
 
+
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 

@@ -128,7 +128,7 @@ fdescribe('Turmas', () => {
     await schoolClassFormPage.save().click();
   });
 
-  fit('deve criar um novo aluno enquanto cadastra uma turma', async () => {
+  it('deve criar um novo aluno enquanto cadastra uma turma', async () => {
     await browser.get('http://localhost:4200/schoolClasses/schoolClass');
 
     const schooClass: SchoolClass = {
